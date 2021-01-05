@@ -12,9 +12,9 @@ const config = {
 	context,
 	entry: join(context, 'src/index.tsx'),
 	output: {
-		filename: '[name].[contenthash:8].js',
+		filename: 'js/[name].[contenthash:8].js',
 		path: join(context, '../server/build'),
-		chunkFilename: '[name].[contenthash:8].chunk.js',
+		chunkFilename: 'js/[name].[contenthash:8].chunk.js',
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js'],
