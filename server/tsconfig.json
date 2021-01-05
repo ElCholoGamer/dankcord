@@ -8,7 +8,8 @@
 		"noImplicitAny": true,
 		"outDir": "dist",
 		"sourceMap": true,
-		"removeComments": true
+		"removeComments": true,
+		"skipLibCheck": true
 	},
 	"ts-node": {
 		"transpileOnly": true

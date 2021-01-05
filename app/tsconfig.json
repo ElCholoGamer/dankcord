@@ -8,7 +8,8 @@
 		"noImplicitAny": true,
 		"sourceMap": true,
 		"jsx": "react",
-		"removeComments": true
+		"removeComments": true,
+		"skipLibCheck": true
 	},
 	"include": ["src"]
 }
