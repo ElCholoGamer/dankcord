@@ -1,12 +1,14 @@
 {
 	"name": "dankcord",
 	"version": "1.0.0",
-	"main": "index.js",
 	"repository": "https://github.com/ElCholoGamer/dankcord.git",
 	"homepage": "https://github.com/ElCholoGamer/dankcord#readme",
 	"author": "ElCholoGamer <josedanielgrayson@gmail.com>",
 	"license": "MIT",
 	"private": true,
+	"engines": {
+		"node": "14.x"
+	},
 	"scripts": {
 		"start": "cd server && yarn start",
 		"build:app": "cd app && yarn build",
