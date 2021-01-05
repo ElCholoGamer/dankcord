@@ -11,6 +11,9 @@
 	},
 	"scripts": {
 		"start": "cd server && yarn start",
+		"install:server": "cd server && yarn install",
+		"install:app": "cd app && yarn install",
+		"install": "yarn install:server && yarn install:app",
 		"build:app": "cd app && yarn build",
 		"build:server": "cd server && yarn build",
 		"build": "yarn build:app && yarn build:server"
