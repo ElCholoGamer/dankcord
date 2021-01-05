@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"module": "CommonJS",
+		"target": "ES5",
+		"esModuleInterop": true,
+		"strict": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"outDir": "dist",
+		"sourceMap": true,
+		"removeComments": true
+	},
+	"ts-node": {
+		"transpileOnly": true
+	},
+	"include": ["src"]
+}
