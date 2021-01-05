@@ -7,19 +7,22 @@ import { config } from 'dotenv';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
+import { resolve } from 'path';
 import initWebSocket from './init/websocket';
 import connectDatabase from './db';
 import initPassport from './passport';
 import passport from 'passport';
 import authRouter from './routes/auth';
+import indexRouter from './routes';
+import apiRouter from './routes/api';
 config();
 
 const { MONGODB_URI } = process.env;
 if (!MONGODB_URI) throw new Error('"MONGODB_URI" env variable missing');
 
-process.env.NODE_ENV = process.argv.includes('-d')
+const NODE_ENV = (process.env.NODE_ENV = process.argv.includes('-d')
 	? 'development'
-	: 'production';
+	: 'production');
 
 const app = express();
 const server = createServer(app);
@@ -45,7 +48,7 @@ app.use(
 		saveUninitialized: false,
 		resave: false,
 		store: new MongoStore({ mongooseConnection: mongoose.connection }),
-		cookie: { secure: process.env.NODE_ENV === 'production' },
+		cookie: { secure: NODE_ENV === 'production' },
 	})
 );
 app.use(passport.initialize());
@@ -68,7 +71,16 @@ app.use(
 	})
 );
 
+// Static public files or index router
+app.use(
+	NODE_ENV === 'development'
+		? express.static(resolve(__dirname, '../../app/public'))
+		: indexRouter
+);
+
+// Other routes
 app.use('/auth', authRouter);
+app.use('/api', apiRouter);
 
 // 404 route
 app.get('*', (req, res) => {
