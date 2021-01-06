@@ -7,7 +7,7 @@ interface Options {
 
 function authenticate(options: Options = {}): RequestHandler {
 	const {
-		responseStatus = 403,
+		responseStatus = 401,
 		responseMessage = 'Unauthorized request.',
 	} = options;
 
