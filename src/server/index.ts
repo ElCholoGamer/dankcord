@@ -14,6 +14,7 @@ import passport from 'passport';
 import authRouter from './routes/auth';
 import indexRouter from './routes';
 import apiRouter from './routes/api';
+import jsonReplacer from './util/json-replacer';
 config();
 
 const { MONGODB_URI } = process.env;
@@ -33,22 +34,7 @@ initWebSocket(server);
 
 // Settings
 app.enable('trust proxy');
-app.set('json replacer', (key: string, val: any) => {
-	// Replace '_id' with 'id'
-	if (typeof val === 'object' && '_id' in val) {
-		val.id = val._id;
-		delete val._id;
-		return val;
-	}
-
-	// Replace date strings with timestamps
-	if (typeof val === 'string') {
-		const d = Date.parse(val);
-		if (!isNaN(d)) return d;
-	}
-
-	return ['password', '__v'].includes(key) ? undefined : val;
-});
+app.set('json replacer', jsonReplacer);
 
 // Middleware
 app.use(cors());
