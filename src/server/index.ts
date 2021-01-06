@@ -41,8 +41,6 @@ app.set('json replacer', (key: string, val: any) => {
 	return ['password', '__v'].includes(key) ? undefined : val;
 });
 
-app.get('/test', (req, res) => res.json({ date: new Date() }));
-
 // Middleware
 app.use(cors());
 app.use(express.json());
