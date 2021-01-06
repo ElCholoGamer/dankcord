@@ -34,9 +34,18 @@ initWebSocket(server);
 // Settings
 app.enable('trust proxy');
 app.set('json replacer', (key: string, val: any) => {
+	// Replace '_id' with 'id'
+	if (typeof val === 'object' && '_id' in val) {
+		val.id = val._id;
+		delete val._id;
+		return val;
+	}
+
 	// Replace date strings with timestamps
-	const d = Date.parse(val);
-	if (!isNaN(d)) return d;
+	if (typeof val === 'string') {
+		const d = Date.parse(val);
+		if (!isNaN(d)) return d;
+	}
 
 	return ['password', '__v'].includes(key) ? undefined : val;
 });
