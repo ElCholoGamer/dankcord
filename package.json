@@ -11,8 +11,6 @@
 	},
 	"scripts": {
 		"start": "cd server && yarn start",
-		"build:app": "cd app && echo \"DIR: $PWD\" && yarn && yarn build",
-		"build:server": "cd server && yarn && yarn build",
-		"build": "yarn build:app && yarn build:server"
+		"build": "cd app && yarn && yarn build && cd ../server && yarn && yarn build"
 	}
 }
