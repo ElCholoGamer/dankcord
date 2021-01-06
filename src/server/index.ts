@@ -33,9 +33,15 @@ initWebSocket(server);
 
 // Settings
 app.enable('trust proxy');
-app.set('json replacer', (key: string, val: any) =>
-	['password', '__v'].includes(key) ? undefined : val
-);
+app.set('json replacer', (key: string, val: any) => {
+	// Replace date strings with timestamps
+	const d = Date.parse(val);
+	if (!isNaN(d)) return d;
+
+	return ['password', '__v'].includes(key) ? undefined : val;
+});
+
+app.get('/test', (req, res) => res.json({ date: new Date() }));
 
 // Middleware
 app.use(cors());
