@@ -71,16 +71,16 @@ app.use(
 	})
 );
 
+// Other routes
+app.use('/auth', authRouter);
+app.use('/api', apiRouter);
+
 // Static public files or index router
 app.use(
 	NODE_ENV === 'development'
 		? express.static(resolve(__dirname, '../../app/public'))
 		: indexRouter
 );
-
-// Other routes
-app.use('/auth', authRouter);
-app.use('/api', apiRouter);
 
 // 404 route
 app.get('*', (req, res) => {
