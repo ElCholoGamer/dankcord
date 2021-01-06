@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"start": "cd server && yarn start",
-		"build:app": "cd app && yarn && yarn build",
+		"build:app": "cd app && echo \"DIR: %CD%\" && yarn && yarn build",
 		"build:server": "cd server && yarn && yarn build",
 		"build": "yarn build:app && yarn build:server"
 	}
