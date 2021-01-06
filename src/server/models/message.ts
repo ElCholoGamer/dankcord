@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import { generateID } from '../db';
+import { generateID } from '../util/db';
 
 export interface IMessage extends Document {
 	_id: string;

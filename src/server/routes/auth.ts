@@ -2,7 +2,7 @@ import { Router, Request, Response } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import passport from 'passport';
 import { IUser } from '../models/user';
-import validator from '../util/validator';
+import validator from '../middleware/validator';
 
 const router = Router();
 

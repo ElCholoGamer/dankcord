@@ -8,7 +8,7 @@ import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import initWebSocket from './init/websocket';
-import connectDatabase from './db';
+import connectDatabase from './util/db';
 import initPassport from './passport';
 import passport from 'passport';
 import authRouter from './routes/auth';
