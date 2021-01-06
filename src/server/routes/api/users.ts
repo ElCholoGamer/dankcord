@@ -10,10 +10,7 @@ router.get(
 	asyncHandler(async (req, res) => {
 		const id = req.params.id;
 		if (id === '@me') {
-			return res.json({
-				status: 200,
-				user: req.user,
-			});
+			return res.json(req.user);
 		}
 
 		const user = await User.findById(id);
@@ -24,10 +21,7 @@ router.get(
 			});
 		}
 
-		res.json({
-			status: 200,
-			user,
-		});
+		res.json(user);
 	})
 );
 
