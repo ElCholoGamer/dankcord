@@ -12,7 +12,7 @@
 		"build:app": "webpack --config webpack/webpack.prod.js",
 		"build:server": "tsc -p tsconfig.server.json",
 		"build": "yarn build:app && yarn build:server",
-		"serve:dev": "ts-node-dev --rs --respawn src/server/index.ts",
+		"serve:dev": "ts-node-dev --rs --respawn --project tsconfig.server.json src/server/index.ts -d",
 		"serve": "node --enable-source-maps ."
 	},
 	"dependencies": {
