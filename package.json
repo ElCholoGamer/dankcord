@@ -11,9 +11,8 @@
 	},
 	"scripts": {
 		"start": "cd server && yarn start",
-		"postinstall": "yarn install --prefix ./app && yarn install --prefix ./server",
-		"build:app": "cd app && yarn build",
-		"build:server": "cd server && yarn build",
+		"build:app": "cd app && yarn && yarn build",
+		"build:server": "cd server && yarn && yarn build",
 		"build": "yarn build:app && yarn build:server"
 	}
 }
