@@ -4,11 +4,13 @@ import User from '../models/user';
 
 const loginStrategy = new LocalStrategy(
 	{
-		usernameField: 'email',
+		usernameField: 'username',
 		passwordField: 'password',
 	},
-	async (email, password, done) => {
-		const user = await User.findOne({ email });
+	async (username, password, done) => {
+		username = username.trim();
+
+		const user = await User.findOne({ username });
 		if (!user) {
 			return done(null, false, { message: 'User not found' });
 		}
