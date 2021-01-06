@@ -14,7 +14,7 @@ const config = {
 	entry: join(context, 'src/app/index.tsx'),
 	output: {
 		filename: 'js/[name].[contenthash:8].js',
-		path: join(context, '../build'),
+		path: join(context, 'build'),
 		chunkFilename: 'js/[name].[contenthash:8].chunk.js',
 	},
 	resolve: {
