@@ -6,8 +6,8 @@
 	"license": "MIT",
 	"private": true,
 	"scripts": {
-		"start": "webpack serve --config webpack/webpack.dev.js",
-		"build": "webpack --config webpack/webpack.prod.js"
+		"start": "yarn webpack serve --config webpack/webpack.dev.js",
+		"build": "yarn webpack --config webpack/webpack.prod.js"
 	},
 	"dependencies": {
 		"react": "^17.0.1",
