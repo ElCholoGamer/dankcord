@@ -8,7 +8,7 @@ const router = Router();
 router.get(
 	'/:id',
 	asyncHandler(async (req, res) => {
-		const id = req.params.id;
+		const { id } = req.params;
 		if (id === '@me') {
 			return res.json(req.user);
 		}
