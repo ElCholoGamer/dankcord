@@ -3,7 +3,7 @@ import { resolve, join } from 'path';
 
 const router = express.Router();
 
-const BUILD = resolve(__dirname, '../../build');
+const BUILD = resolve(__dirname, '../build');
 router.use(express.static(BUILD));
 
 const indexHtml = join(BUILD, 'index.html');

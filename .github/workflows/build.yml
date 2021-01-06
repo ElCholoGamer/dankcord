@@ -14,16 +14,5 @@ jobs:
       - name: Install dependencies
         working-directory: server
         run: yarn
-      - name: Build server
-        working-directory: server
-        run: yarn build
-  build-app:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        working-directory: app
-        run: yarn
-      - name: Build app
-        working-directory: app
+      - name: Run build
         run: yarn build

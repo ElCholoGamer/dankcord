@@ -7,7 +7,6 @@ import { config } from 'dotenv';
 import connectMongo from 'connect-mongo';
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
-import { resolve } from 'path';
 import initWebSocket from './init/websocket';
 import connectDatabase from './db';
 import initPassport from './passport';
@@ -76,11 +75,7 @@ app.use('/auth', authRouter);
 app.use('/api', apiRouter);
 
 // Static public files or index router
-app.use(
-	NODE_ENV === 'development'
-		? express.static(resolve(__dirname, '../../app/public'))
-		: indexRouter
-);
+app.use(NODE_ENV === 'development' ? express.static('public') : indexRouter);
 
 // 404 route
 app.get('*', (req, res) => {

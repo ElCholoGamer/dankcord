@@ -1,18 +1,15 @@
 {
 	"compilerOptions": {
-		"module": "CommonJS",
+		"module": "ESNext",
 		"target": "ES5",
-		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
 		"strict": true,
 		"strictNullChecks": true,
 		"noImplicitAny": true,
-		"outDir": "dist",
 		"sourceMap": true,
+		"jsx": "react",
 		"removeComments": true,
 		"skipLibCheck": true
 	},
-	"ts-node": {
-		"transpileOnly": true
-	},
-	"include": ["src"]
+	"include": ["src/app/**/*"]
 }

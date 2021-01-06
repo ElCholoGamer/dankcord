@@ -6,14 +6,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const context = resolve(__dirname, '../');
+const configFile = join(context, 'tsconfig.app.json');
 
 /** @type {import('webpack').Configuration} */
 const config = {
 	context,
-	entry: join(context, 'src/index.tsx'),
+	entry: join(context, 'src/app/index.tsx'),
 	output: {
 		filename: 'js/[name].[contenthash:8].js',
-		path: join(context, '../server/build'),
+		path: join(context, '../build'),
 		chunkFilename: 'js/[name].[contenthash:8].chunk.js',
 	},
 	resolve: {
@@ -43,6 +44,7 @@ const config = {
 						loader: 'ts-loader',
 						options: {
 							transpileOnly: true,
+							configFile,
 						},
 					},
 				],
@@ -64,7 +66,7 @@ const config = {
 		new HtmlWebpackPlugin({
 			template: join(context, 'public/index.html'),
 		}),
-		new ForkTsCheckerWebpackPlugin({ async: false }),
+		new ForkTsCheckerWebpackPlugin({ typescript: { configFile } }),
 		new CleanWebpackPlugin(),
 		new CopyWebpackPlugin({ patterns: [{ from: 'public/' }] }),
 		new MiniCssExtractPlugin({
