@@ -23,8 +23,40 @@ router.get(
 	})
 );
 
+// Create a new channel
+router.post(
+	'/',
+	checkMod(),
+	channelValidator,
+	asyncHandler(async (req, res) => {
+		const priv: boolean = req.body.private ?? false;
+		const name: string = req.body.name.toLowerCase();
+
+		// Check that name is unique
+		const existing = await Channel.findOne({ name });
+		if (existing) {
+			return res.status(409).json({
+				status: 409,
+				message: 'Channel with name already exists.',
+			});
+		}
+
+		// Create and save channel
+		const channel = new Channel({
+			name,
+			private: priv,
+			author: req.user!._id,
+		});
+		await channel.save();
+
+		// TODO: Emit 'CHANNEL_CREATE' event
+		res.json(channel);
+	})
+);
+
 // Middleware to find channels by ID
 router.use(
+	'/:id',
 	asyncHandler(async (req, res, next) => {
 		const { id } = req.params;
 		const channel = await Channel.findById(id);
@@ -53,31 +85,10 @@ router.use(
 router.get('/:id', (req, res) => res.json(req.channel)); // Get a channel by ID
 router.use('/:id/messages', messagesRouter); // Messages router
 
-// Moderator-only routes
-router.use(checkMod());
-
-// Create a new channel
-router.post(
-	'/',
-	checkMod(),
-	channelValidator,
-	asyncHandler(async (req, res) => {
-		// Create and save channel
-		const { name, private: priv = false } = req.body;
-		const channel = await Channel.create({
-			name,
-			private: priv,
-			author: req.user!._id,
-		});
-
-		// TODO: Emit 'CHANNEL_CREATE' event
-		res.json(channel);
-	})
-);
-
 // Edit a channel
-router.patch('/:id', channelValidator, async (req, res) => {
-	const { name, private: priv = false } = req.body;
+router.patch('/:id', checkMod(), channelValidator, async (req, res) => {
+	const priv: boolean = req.body.private ?? false;
+	const name: string = req.body.name.toLowerCase();
 
 	// Update and save channel
 	if (name) req.channel.name = name;
@@ -91,6 +102,7 @@ router.patch('/:id', channelValidator, async (req, res) => {
 // Delete a channel
 router.delete(
 	'/:id',
+	checkMod(),
 	asyncHandler(async (req, res) => {
 		await req.channel.delete();
 
