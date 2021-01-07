@@ -20,8 +20,8 @@ const ChannelSchema = new Schema(
 	{ timestamps: true }
 );
 
-const Channel = model<IChannel>('Channel', ChannelSchema);
-
 ChannelSchema.pre('save', generateID);
+
+const Channel = model<IChannel>('Channel', ChannelSchema);
 
 export default Channel;
