@@ -12,7 +12,7 @@ function jsonReplacer(key: string, val: any) {
 		if (!isNaN(d)) return d;
 	}
 
-	return ['password', '__v'].includes(key) ? undefined : val;
+	return ['password', '__v', 'token'].includes(key) ? undefined : val;
 }
 
 export default jsonReplacer;
