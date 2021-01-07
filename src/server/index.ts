@@ -30,7 +30,7 @@ const MongoStore = connectMongo(session);
 
 // Initialization
 initPassport();
-initWebSocket(server);
+initWebSocket(app, server);
 
 // Settings
 app.enable('trust proxy');
