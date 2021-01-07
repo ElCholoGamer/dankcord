@@ -51,14 +51,15 @@ router.post(
 	'/',
 	messageValidator,
 	asyncHandler(async (req, res) => {
-		const message = await Message.create({
+		const message = new Message({
 			channel: req.channel.id,
 			content: req.body.content,
 			author: req.user!.id,
 		});
 
-		// Emit 'MESSAGE_CREATE' event
+		await message.save();
 		req.wss.broadcast('MESSAGE_CREATE', message);
+
 		res.json(message);
 	})
 );
@@ -81,9 +82,8 @@ router.patch(
 		// Update and save message
 		message.content = req.body.content;
 		await message.save();
-
-		// Emit 'MESSAGE_EDIT' event
 		req.wss.broadcast('MESSAGE_EDIT', message);
+
 		res.json(message);
 	})
 );
@@ -103,9 +103,8 @@ router.delete(
 		}
 
 		await message.delete();
-
-		// Emit 'MESSAGE_DELETE' event
 		req.wss.broadcast('CHANNEL_DELETE', message);
+
 		res.json({
 			status: 200,
 			message: 'Message deleted.',

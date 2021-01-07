@@ -47,10 +47,10 @@ router.post(
 			private: priv,
 			author: req.user!._id,
 		});
-		await channel.save();
 
-		// Emit 'CHANNEL_CREATE' event
+		await channel.save();
 		req.wss.broadcast('CHANNEL_CREATE', channel, priv);
+
 		res.json(channel);
 	})
 );
@@ -94,10 +94,10 @@ router.patch('/:id', checkMod(), channelValidator, async (req, res) => {
 	// Update and save channel
 	if (name) req.channel.name = name;
 	req.channel.private = priv;
-	await req.channel.save();
 
-	// Emit 'CHANNEL_EDIT' event
+	await req.channel.save();
 	req.wss.broadcast('CHANNEL_EDIT', req.channel, priv);
+
 	res.json(req.channel);
 });
 
@@ -107,9 +107,8 @@ router.delete(
 	checkMod(),
 	asyncHandler(async (req, res) => {
 		await req.channel.delete();
-
-		// Emit 'CHANNEL_DELETE' event
 		req.wss.broadcast('CHANNEL_DELETE', req.channel);
+
 		res.json({
 			status: 200,
 			message: 'Channel deleted.',
