@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { IVerifyOptions } from 'passport-local';
 import passport from 'passport';
-import { IUser } from '../models/user';
+import user, { IUser } from '../models/user';
 import validator from '../middleware/validator';
 
 const router = Router();
@@ -28,7 +28,7 @@ const authCallback = (req: Request, res: Response) => (
 			console.error(err);
 			res.status(500).json({ status: 500, error: err });
 		} else {
-			res.json({ status: 200, user });
+			res.json(user);
 		}
 	});
 };
@@ -58,7 +58,7 @@ router.post('/logout', (req, res) => {
 	req.logout();
 	res.json({
 		status: 200,
-		message: 'Logged out successfully',
+		message: 'Logged out.',
 	});
 });
 
