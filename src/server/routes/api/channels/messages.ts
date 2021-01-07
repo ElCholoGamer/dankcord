@@ -57,7 +57,8 @@ router.post(
 			author: req.user!.id,
 		});
 
-		// TODO: Emit 'MESSAGE_CREATE' event
+		// Emit 'MESSAGE_CREATE' event
+		req.wss.broadcast('MESSAGE_CREATE', message);
 		res.json(message);
 	})
 );
@@ -81,7 +82,8 @@ router.patch(
 		message.content = req.body.content;
 		await message.save();
 
-		// TODO: Emit 'MESSAGE_EDIT' event
+		// Emit 'MESSAGE_EDIT' event
+		req.wss.broadcast('MESSAGE_EDIT', message);
 		res.json(message);
 	})
 );
@@ -101,8 +103,9 @@ router.delete(
 		}
 
 		await message.delete();
-		// TODO: Emit 'MESSAGE_DELETE' event
 
+		// Emit 'MESSAGE_DELETE' event
+		req.wss.broadcast('CHANNEL_DELETE', message);
 		res.json({
 			status: 200,
 			message: 'Message deleted.',

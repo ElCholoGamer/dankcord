@@ -49,7 +49,8 @@ router.post(
 		});
 		await channel.save();
 
-		// TODO: Emit 'CHANNEL_CREATE' event
+		// Emit 'CHANNEL_CREATE' event
+		req.wss.broadcast('CHANNEL_CREATE', channel, priv);
 		res.json(channel);
 	})
 );
@@ -95,7 +96,8 @@ router.patch('/:id', checkMod(), channelValidator, async (req, res) => {
 	req.channel.private = priv;
 	await req.channel.save();
 
-	// TODO: Emit 'CHANNEL_EDIT' event
+	// Emit 'CHANNEL_EDIT' event
+	req.wss.broadcast('CHANNEL_EDIT', req.channel, priv);
 	res.json(req.channel);
 });
 
@@ -106,7 +108,8 @@ router.delete(
 	asyncHandler(async (req, res) => {
 		await req.channel.delete();
 
-		// TODO: Emit 'CHANNEL_DELETE' event
+		// Emit 'CHANNEL_DELETE' event
+		req.wss.broadcast('CHANNEL_DELETE', req.channel);
 		res.json({
 			status: 200,
 			message: 'Channel deleted.',
