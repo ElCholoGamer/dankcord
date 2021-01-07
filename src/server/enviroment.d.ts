@@ -18,6 +18,12 @@ declare global {
 declare module 'ws' {
 	interface Server {
 		broadcast(event: string, data: {}, moderatorOnly?: boolean): void;
+		broadcast(event: 'MESSAGE_CREATE', data: IMessage, moderatorOnly?: boolean): void;
+		broadcast(event: 'MESSAGE_EDIT', data: IMessage, moderatorOnly?: boolean): void;
+		broadcast(event: 'MESSAGE_DELETE', data: IMessage, moderatorOnly?: boolean): void;
+		broadcast(event: 'CHANNEL_CREATE', data: IChannel, moderatorOnly?: boolean): void;
+		broadcast(event: 'CHANNEL_EDIT', data: IChannel, moderatorOnly?: boolean): void;
+		broadcast(event: 'CHANNEL_DELETE', data: IChannel, moderatorOnly?: boolean): void;
 	}
 
 	interface WebSocket extends WS {
