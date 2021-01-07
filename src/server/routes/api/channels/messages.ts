@@ -70,7 +70,7 @@ router.patch(
 		const { message, user } = req;
 
 		// Check that user is message author
-		if (message.author !== user!._id) {
+		if (message.author._id !== user!._id) {
 			return res.status(403).json({
 				status: 403,
 				message: 'Unauthorized.',
@@ -93,7 +93,7 @@ router.delete(
 		const { message } = req;
 
 		// Check that user is the author or a moderator
-		if (message.author !== req.user!._id && !req.user!.moderator) {
+		if (message.author._id !== req.user!._id && !req.user!.moderator) {
 			return res.status(403).json({
 				status: 403,
 				message: 'Unauthorized.',

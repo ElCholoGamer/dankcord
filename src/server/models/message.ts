@@ -1,20 +1,21 @@
 import { Schema, model, Document } from 'mongoose';
 import { generateID } from '../util/db';
+import { IUser, UserSchema } from './user';
 
 export interface IMessage extends Document {
 	_id: string;
 	content: string;
-	author: string;
+	author: IUser;
 	channel: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
 
-const MessageSchema = new Schema(
+export const MessageSchema = new Schema(
 	{
 		_id: String,
 		content: { type: String, required: true, minLength: 1, maxLength: 2000 },
-		author: { type: String, required: true },
+		author: { type: UserSchema, required: true },
 		channel: { type: String, required: true },
 	},
 	{ timestamps: true }

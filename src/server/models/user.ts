@@ -11,7 +11,7 @@ export interface IUser extends Document {
 	updatedAt: Date;
 }
 
-const UserSchema = new Schema(
+export const UserSchema = new Schema(
 	{
 		_id: String,
 		username: { type: String, required: true, minlength: 1, maxlength: 20 },
