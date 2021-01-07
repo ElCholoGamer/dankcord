@@ -77,7 +77,7 @@ app.use('/api', apiRouter);
 app.use(NODE_ENV === 'development' ? express.static('public') : indexRouter);
 
 // 404 route
-app.get('*', (req, res) => {
+app.all('*', (req, res) => {
 	res.status(404).json({ status: 404, message: 'Not found' });
 });
 
