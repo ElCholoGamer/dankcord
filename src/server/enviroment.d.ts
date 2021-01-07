@@ -17,7 +17,7 @@ declare global {
 
 declare module 'ws' {
 	interface Server {
-		broadcast(data: {}, moderatorOnly?: boolean): void;
+		broadcast(event: string, data: {}, moderatorOnly?: boolean): void;
 	}
 
 	interface WebSocket extends WS {

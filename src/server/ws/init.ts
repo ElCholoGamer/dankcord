@@ -6,11 +6,10 @@ import verifyClient from './verify-client';
 import User from '../models/user';
 
 // Broadcast function
-WSServer.prototype.broadcast = function (data, moderatorOnly = false) {
+WSServer.prototype.broadcast = function (event, data, moderatorOnly = false) {
 	this.clients.forEach(client => {
-		if (client.OPEN && (!moderatorOnly || client.moderator)) {
-			client.send(data);
-		}
+		if (client.OPEN && (!moderatorOnly || client.moderator))
+			client.send(JSON.stringify({ event, data }));
 	});
 };
 
