@@ -83,6 +83,7 @@ router.post(
 
 		res.json({
 			status: 200,
+			id: req.user?.id,
 			authToken: token,
 		});
 	})
