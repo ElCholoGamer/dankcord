@@ -1,7 +1,7 @@
 import { IUser } from './models/user';
 import { IChannel } from './models/channel';
 import { IMessage } from './models/message';
-import { Server as WSServer } from 'ws';
+import WS, { Server as WSServer } from 'ws';
 
 declare global {
 	namespace Express {
@@ -12,5 +12,15 @@ declare global {
 			message: IMessage;
 			wss: WSServer;
 		}
+	}
+}
+
+declare module 'ws' {
+	interface Server {
+		broadcast(data: {}, moderatorOnly?: boolean): void;
+	}
+
+	interface WebSocket extends WS {
+		moderator: boolean;
 	}
 }
