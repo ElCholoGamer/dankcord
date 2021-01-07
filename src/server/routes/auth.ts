@@ -67,7 +67,7 @@ router.post('/logout', (req, res) => {
 
 // Generate auth token for WebSocket
 router.post(
-	'/wstoken',
+	'/token',
 	authenticate(),
 	asyncHandler(async (req, res) => {
 		let token: string;
@@ -83,7 +83,7 @@ router.post(
 
 		res.json({
 			status: 200,
-			token,
+			authToken: token,
 		});
 	})
 );
