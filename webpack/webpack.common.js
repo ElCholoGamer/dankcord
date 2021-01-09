@@ -54,7 +54,7 @@ const config = {
 				use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
 			},
 			{
-				test: /\.(jpe?g|png|gif|ico|svg|mp4)$/i,
+				test: /\.(jpe?g|png|gif|ico|svg|mp4|ttf|woff2?|otf)$/i,
 				loader: 'file-loader',
 				options: {
 					name: 'assets/[name].[ext]',
