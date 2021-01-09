@@ -1,0 +1,23 @@
+@import '../../variables';
+
+nav {
+	background-color: $backgroundSec;
+	width: inherit;
+	padding: 10px;
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	// Brand text
+	> h2 {
+		font-family: 'Uni Sans';
+		letter-spacing: 1px;
+	}
+
+	// Header logo
+	> img {
+		height: 40px;
+		margin: 0 10px;
+	}
+}
