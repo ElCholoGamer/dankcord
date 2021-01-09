@@ -1,4 +1,21 @@
+@import './variables';
+
+@font-face {
+	font-family: 'Uni Sans';
+	src: url('./assets/fonts/uni-sans-heavy.otf');
+	font-weight: bolder;
+}
+
 * {
 	margin: 0;
 	padding: 0;
+	color: white;
+}
+
+body {
+	background-color: $background;
+}
+
+main {
+	padding: 30px;
 }
