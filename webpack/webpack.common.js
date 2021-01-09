@@ -16,6 +16,7 @@ const config = {
 		filename: 'js/[name].[contenthash:8].js',
 		path: join(context, 'build'),
 		chunkFilename: 'js/[name].[contenthash:8].chunk.js',
+		publicPath: '/',
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js'],
@@ -57,7 +58,8 @@ const config = {
 				test: /\.(jpe?g|png|gif|ico|svg|mp4|ttf|woff2?|otf)$/i,
 				loader: 'file-loader',
 				options: {
-					name: 'assets/[name].[ext]',
+					name: '[folder]/[name].[ext]',
+					outputPath: 'assets/',
 				},
 			},
 		],
