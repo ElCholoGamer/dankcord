@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.scss';
+import Loading from './components/Loading';
 
 const Channels = lazy(() => import('./pages/Channels'));
 const Home = lazy(() => import('./pages/Home'));
@@ -9,7 +10,7 @@ const Register = lazy(() => import('./pages/Register'));
 
 const App: React.FC = () => {
 	return (
-		<Suspense fallback={<h2>Loading...</h2>}>
+		<Suspense fallback={<Loading />}>
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<Route exact path="/channels" component={Channels} />
