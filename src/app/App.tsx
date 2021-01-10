@@ -5,6 +5,7 @@ import Loading from '@components/Loading';
 import { User } from './structures';
 import './App.scss';
 
+const Header = lazy(() => import('@components/Header'));
 const Channels = lazy(() => import('./pages/Channels'));
 const Home = lazy(() => import('./pages/Home'));
 const Login = lazy(() => import('./pages/Login'));
@@ -28,8 +29,9 @@ const App: React.FC = () => {
 
 	return (
 		<Suspense fallback={<Loading />}>
+			<Header user={user} />
 			<Switch>
-				<Route exact path="/" render={() => <Home user={user} />} />
+				<Route exact path="/" component={Home} />
 				<Route exact path="/channels" component={Channels} />
 				<Route exact path="/login" component={Login} />
 				<Route exact path="/register" component={Register} />

@@ -1,10 +1,20 @@
 #home-content {
-	margin: 80px 0;
+	margin: 10px 0;
 	text-align: center;
 	font-size: 25px;
-	font-family: Whitney;
+
+	> img {
+		max-width: 80%;
+	}
+
+	> h1 {
+		margin-top: 30px;
+	}
 
 	> p {
-		margin: 60px 0;
+		width: 600px;
+		max-width: 85%;
+		margin: 60px auto;
+		font-size: x-large;
 	}
 }
