@@ -6,5 +6,5 @@ Yeah, completely original idea.
 
 ![Logo][logo]
 
-[logo]: https://raw.githubusercontent.com/ElCholoGamer/dankcord/main/public/logo.png
+[logo]: https://raw.githubusercontent.com/ElCholoGamer/dankcord/main/src/app/assets/images/logo.png
 [build]: https://github.com/ElCholoGamer/dankcord/workflows/Build/badge.svg
