@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import './App.scss';
-import Loading from './components/Loading';
+import Loading from '@components/Loading';
 import { User } from './structures';
+import './App.scss';
 
 const Channels = lazy(() => import('./pages/Channels'));
 const Home = lazy(() => import('./pages/Home'));

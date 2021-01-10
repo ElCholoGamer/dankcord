@@ -20,6 +20,10 @@ const config = {
 	},
 	resolve: {
 		extensions: ['.tsx', '.ts', '.js'],
+		alias: {
+			'@assets': join(context, 'src/app/assets/'),
+			'@components': join(context, 'src/app/components/'),
+		},
 	},
 	module: {
 		rules: [

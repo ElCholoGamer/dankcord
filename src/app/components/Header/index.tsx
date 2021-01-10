@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../assets/images/logo.png';
+import Logo from '@assets/images/logo.png';
 import { User } from '../../structures';
 import './Header.scss';
 

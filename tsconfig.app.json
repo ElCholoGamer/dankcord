@@ -10,7 +10,12 @@
 		"jsx": "react",
 		"removeComments": true,
 		"skipLibCheck": true,
-		"moduleResolution": "node"
+		"moduleResolution": "node",
+		"baseUrl": "./src/app/",
+		"paths": {
+			"@assets/*": ["assets/*"],
+			"@components/*": ["components/*"]
+		}
 	},
 	"include": ["src/app/**/*"]
 }

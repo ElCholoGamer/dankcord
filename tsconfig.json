@@ -8,6 +8,11 @@
 		"jsx": "react",
 		"strict": true,
 		"strictNullChecks": true,
-		"noImplicitAny": true
+		"noImplicitAny": true,
+		"baseUrl": "./src/app/",
+		"paths": {
+			"@assets/*": ["assets/*"],
+			"@components/*": ["components/*"]
+		}
 	}
 }
