@@ -1,8 +1,8 @@
 const webpack = require('webpack');
 const { merge } = require('webpack-merge');
+const { resolve } = require('path');
 const common = require('./webpack.common');
 const pkg = require('../package.json');
-const path = require('path');
 
 // Dev proxy settings
 const { proxy = '/' } = pkg;
@@ -12,7 +12,7 @@ const config = merge(common, {
 	mode: 'development',
 	devtool: 'eval-source-map',
 	devServer: {
-		contentBase: path.resolve(__dirname, '../build'),
+		contentBase: resolve(__dirname, '../build'),
 		port: 3000,
 		hot: true,
 		historyApiFallback: true,
