@@ -2,10 +2,10 @@
 	"name": "Dankcord",
 	"description": "A completely original chat app.",
 	"lang": "en-US",
-	"start_url": "/",
+	"start_url": "/channels",
 	"display": "standalone",
-	"background_color": "#0c0769",
-	"theme_color": "#382ff5",
+	"background_color": "#23272a",
+	"theme_color": "#2c2f33",
 	"icons": [
 		{
 			"src": "/icons/manifest-icon-192.png",
