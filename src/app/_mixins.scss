@@ -1,0 +1,10 @@
+@import './variables';
+
+@mixin bgChange($base: $important, $value) {
+	background-color: adjust-color(
+		$base,
+		$red: $value,
+		$green: $value,
+		$blue: $value
+	);
+}

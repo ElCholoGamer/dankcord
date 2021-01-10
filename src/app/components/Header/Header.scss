@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../mixins';
 
 nav {
 	background-color: $backgroundSec;
@@ -8,11 +9,43 @@ nav {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
+	justify-content: space-between;
+}
+
+#login-btn {
+	background-color: $important;
+
+	&:hover {
+		@include bgChange($value: -30);
+	}
+
+	&:active {
+		@include bgChange($value: -45);
+	}
+}
+
+#logout-btn {
+	$tomato: #dc322f;
+	background-color: rgba(#000, 0);
+
+	color: $tomato;
+	border: 1px solid $tomato;
+
+	&:active {
+		background-color: adjust-color($tomato, $alpha: -0.6);
+	}
+}
+
+#header-brand {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
 	// Brand text
 	> h2 {
 		font-family: 'Uni Sans';
 		letter-spacing: 1px;
+		height: 100%;
 	}
 
 	// Header logo
