@@ -16,6 +16,7 @@
 		"serve": "node --enable-source-maps ."
 	},
 	"dependencies": {
+		"axios": "^0.21.1",
 		"bcrypt": "^5.0.0",
 		"connect-mongo": "^3.2.0",
 		"cors": "^2.8.5",
