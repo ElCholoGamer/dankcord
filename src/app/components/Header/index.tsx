@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, MouseEvent } from 'react';
 import Logo from '@assets/images/logo.png';
 import { User } from '../../structures';
 import { useHistory } from 'react-router-dom';
@@ -13,7 +13,8 @@ interface Props {
 const Header: React.FC<Props> = ({ user, setLoaded }) => {
 	const history = useHistory();
 
-	const logOut = () => {
+	const logOut = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+		e.currentTarget.disabled = true;
 		axios.post('/auth/logout').finally(() => setLoaded(false));
 	};
 

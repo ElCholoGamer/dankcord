@@ -22,6 +22,7 @@ const App: React.FC = () => {
 			.get('/api/users/@me')
 			.then(res => setUser(res.data))
 			.catch((err: AxiosError) => {
+				setUser(null);
 				if (err.response?.status !== 401) console.error(err);
 			})
 			.finally(() => setLoaded(true));
