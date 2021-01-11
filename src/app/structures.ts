@@ -19,7 +19,7 @@ export interface Channel {
 }
 
 export interface Message {
-	_id: string;
+	id: string;
 	content: string;
 	author: User;
 	channel: string;
