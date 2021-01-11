@@ -23,6 +23,7 @@ const Login: React.FC<Props> = ({ setLoaded }) => {
 		axios
 			.post('/auth/login', input)
 			.then(() => {
+				localStorage.setItem('loggedIn', 'true');
 				setLoaded(false);
 				history.push('/');
 			})

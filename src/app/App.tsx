@@ -16,6 +16,11 @@ const App: React.FC = () => {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
+		if (localStorage.getItem('loggedIn') !== 'true') {
+			setUser(null);
+			return setLoaded(true);
+		}
+
 		if (loaded) return;
 
 		axios

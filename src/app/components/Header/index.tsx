@@ -15,7 +15,10 @@ const Header: React.FC<Props> = ({ user, setLoaded }) => {
 
 	const logOut = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
 		e.currentTarget.disabled = true;
-		axios.post('/auth/logout').finally(() => setLoaded(false));
+		axios.post('/auth/logout').finally(() => {
+			localStorage.removeItem('loggedIn');
+			setLoaded(false);
+		});
 	};
 
 	return (

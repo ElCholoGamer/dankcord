@@ -29,6 +29,7 @@ const Register: React.FC<Props> = ({ setLoaded }) => {
 		axios
 			.post('/auth/register', input)
 			.then(() => {
+				localStorage.setItem('loggedIn', 'true');
 				setLoaded(false);
 				history.push('/channels');
 			})
