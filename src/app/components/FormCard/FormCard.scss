@@ -2,7 +2,7 @@
 @import '../../mixins';
 @import '../../functions';
 
-#login-card {
+.form-card {
 	margin: 0 auto;
 	padding: 30px;
 
@@ -45,7 +45,7 @@
 	}
 }
 
-#form-login-btn {
+.form-btn {
 	background-color: $important;
 	margin: 20px 0;
 
@@ -58,7 +58,7 @@
 	}
 }
 
-.card-bottom {
+.card-link {
 	font-size: 14px;
 	text-decoration: none;
 	cursor: pointer;
