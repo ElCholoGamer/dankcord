@@ -41,7 +41,7 @@ app.set('json replacer', jsonReplacer);
 app.use(forceHttps());
 app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'));
+if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET || 'poggers',
