@@ -3,11 +3,9 @@
 @import '../../functions';
 
 .form-card {
+	width: 400px;
 	margin: 0 auto;
 	padding: 30px;
-
-	width: 400px;
-	max-width: 90%;
 
 	background-color: $backgroundSec;
 	box-shadow: black 0 0 10px;
@@ -75,4 +73,10 @@
 	padding: 10px;
 	border-radius: 5px;
 	border: 1px solid $tomato;
+}
+
+@media screen and (max-width: 550px) {
+	.form-card {
+		width: 80%;
+	}
 }

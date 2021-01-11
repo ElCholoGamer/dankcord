@@ -55,39 +55,41 @@ function FormCard<T extends { [key: string]: string }>({
 			<h2>{title}</h2>
 			<hr />
 
-			{fields.map((field, index) => {
-				const { value, label, type } = field;
-				return (
-					<div className="form-group" key={index}>
-						<label htmlFor={value}>{label}:</label>
-						<br />
+			<form>
+				{fields.map((field, index) => {
+					const { value, label, type } = field;
+					return (
+						<div className="form-group" key={index}>
+							<label htmlFor={value}>{label}:</label>
+							<br />
 
-						<input
-							type={type}
-							name={value}
-							id={value}
-							value={data[value]}
-							onChange={e => handleChange(e, field)}
-						/>
-					</div>
-				);
-			})}
+							<input
+								type={type}
+								name={value}
+								id={value}
+								value={data[value]}
+								onChange={e => handleChange(e, field)}
+							/>
+						</div>
+					);
+				})}
 
-			{alert && <p className="alert-text">{alert}</p>}
+				{alert && <p className="alert-text">{alert}</p>}
 
-			<button
-				onClick={onSubmit}
-				className="btn form-btn"
-				disabled={fields.some(field => field.required && !data[field.value])}>
-				{buttonLabel}
-			</button>
+				<button
+					onClick={onSubmit}
+					className="btn form-btn"
+					disabled={fields.some(field => field.required && !data[field.value])}>
+					{buttonLabel}
+				</button>
 
-			<br />
-			{footer && (
-				<Link className="card-link" {...footer}>
-					{footer.text}
-				</Link>
-			)}
+				<br />
+				{footer && (
+					<Link className="card-link" {...footer}>
+						{footer.text}
+					</Link>
+				)}
+			</form>
 		</div>
 	);
 }
