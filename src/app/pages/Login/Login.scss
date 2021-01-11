@@ -56,10 +56,6 @@
 	&:active {
 		@include bgChange($value: -20);
 	}
-
-	&:disabled {
-		filter: brightness(80%);
-	}
 }
 
 .card-bottom {
