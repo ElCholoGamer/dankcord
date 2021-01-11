@@ -1,0 +1,4 @@
+@function lighten($value, $tone) {
+	$result: adjust-color($value, $red: $tone, $green: $tone, $blue: $tone);
+	@return $result;
+}

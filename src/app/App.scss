@@ -34,4 +34,8 @@ main {
 	transition: background-color 150ms ease-in-out;
 	font-size: 15px;
 	border-radius: 4px;
+
+	&:disabled {
+		cursor: not-allowed;
+	}
 }

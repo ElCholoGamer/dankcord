@@ -1,0 +1,82 @@
+@import '../../variables';
+@import '../../mixins';
+@import '../../functions';
+
+#login-card {
+	margin: 0 auto;
+	padding: 30px;
+
+	width: 400px;
+	max-width: 90%;
+
+	background-color: $backgroundSec;
+	box-shadow: black 0 0 10px;
+	border-radius: 10px;
+
+	> hr {
+		margin: 20px 0;
+	}
+}
+
+.form-group {
+	margin: 20px 0;
+
+	> input {
+		$paddingX: 8px;
+		$border: 2px;
+
+		width: calc(100% - (#{$paddingX} * 2) - (#{$border} * 2)); // Ah yes, meth
+		height: 30px;
+
+		margin: 10px 0;
+		padding: 5px $paddingX;
+		font-size: 18px;
+
+		outline: none;
+		border-radius: 6px;
+		border: $border solid gray;
+
+		background-color: lighten($background, 5);
+		transition: background-color 100ms ease;
+
+		&:active {
+			background-color: $background;
+		}
+	}
+}
+
+#form-login-btn {
+	background-color: $important;
+	margin: 20px 0;
+
+	&:hover:enabled {
+		@include bgChange($value: -10);
+	}
+
+	&:active {
+		@include bgChange($value: -20);
+	}
+
+	&:disabled {
+		filter: brightness(80%);
+	}
+}
+
+.card-bottom {
+	font-size: 14px;
+	text-decoration: none;
+	cursor: pointer;
+
+	&:hover {
+		color: lightgray;
+	}
+}
+
+.alert-text {
+	color: $tomato;
+	background-color: #ffa9a9;
+
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid $tomato;
+}

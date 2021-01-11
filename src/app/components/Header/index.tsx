@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 import Logo from '@assets/images/logo.png';
 import { User } from '../../structures';
 import { useHistory } from 'react-router-dom';
 import './Header.scss';
+import axios from 'axios';
 
 interface Props {
 	user: User | null;
+	setLoaded: Dispatch<SetStateAction<boolean>>;
 }
 
-const Header: React.FC<Props> = ({ user }) => {
+const Header: React.FC<Props> = ({ user, setLoaded }) => {
 	const history = useHistory();
+
+	const logOut = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+		axios.post('/auth/logout').finally(() => setLoaded(false));
+	};
 
 	return (
 		<nav>
@@ -28,7 +34,7 @@ const Header: React.FC<Props> = ({ user }) => {
 					</button>
 				</div>
 			) : (
-				<button className="btn" id="logout-btn">
+				<button className="btn" id="logout-btn" onClick={logOut}>
 					Log Out
 				</button>
 			)}

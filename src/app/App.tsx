@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import Loading from '@components/Loading';
 import { User } from './structures';
 import './App.scss';
@@ -16,6 +16,8 @@ const App: React.FC = () => {
 	const [loaded, setLoaded] = useState(false);
 
 	useEffect(() => {
+		if (loaded) return;
+
 		axios
 			.get('/api/users/@me')
 			.then(res => setUser(res.data))
@@ -23,17 +25,21 @@ const App: React.FC = () => {
 				if (err.response?.status !== 401) console.error(err);
 			})
 			.finally(() => setLoaded(true));
-	});
+	}, [loaded]);
 
 	if (!loaded) return <Loading />;
 
 	return (
 		<Suspense fallback={<Loading />}>
-			<Header user={user} />
+			<Header setLoaded={setLoaded} user={user} />
 			<Switch>
 				<Route exact path="/" component={Home} />
 				<Route exact path="/channels" component={Channels} />
-				<Route exact path="/login" component={Login} />
+				<Route
+					exact
+					path="/login"
+					render={() => <Login setLoaded={setLoaded} />}
+				/>
 				<Route exact path="/register" component={Register} />
 
 				<Redirect to="/" />
@@ -42,4 +48,4 @@ const App: React.FC = () => {
 	);
 };
 
-export default App;
+export default withRouter(App);
