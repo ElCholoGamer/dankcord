@@ -1,16 +1,20 @@
 import React, { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
 import axios, { AxiosError } from 'axios';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import FormCard from '@components/FormCard';
+import { User } from 'structures';
 
 interface Props {
 	setLoaded: Dispatch<SetStateAction<boolean>>;
+	user: User | null;
 }
 
-const Register: React.FC<Props> = ({ setLoaded }) => {
+const Register: React.FC<Props> = ({ setLoaded, user }) => {
 	const history = useHistory();
 	const [alert, setAlert] = useState('');
 	const [input, setInput] = useState({ username: '', password: '', email: '' });
+
+	if (user) return <Redirect to="/channels" />;
 
 	const onSubmit = (
 		e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>

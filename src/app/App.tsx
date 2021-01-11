@@ -44,12 +44,12 @@ const App: React.FC = () => {
 				<Route
 					exact
 					path="/login"
-					render={() => <Login setLoaded={setLoaded} />}
+					render={() => <Login user={user} setLoaded={setLoaded} />}
 				/>
 				<Route
 					exact
 					path="/register"
-					render={() => <Register setLoaded={setLoaded} />}
+					render={() => <Register user={user} setLoaded={setLoaded} />}
 				/>
 
 				<Redirect to="/" />
