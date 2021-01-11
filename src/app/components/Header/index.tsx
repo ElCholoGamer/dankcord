@@ -35,9 +35,14 @@ const Header: React.FC<Props> = ({ user, setLoaded }) => {
 					</button>
 				</div>
 			) : (
-				<button className="btn" id="logout-btn" onClick={logOut}>
-					Log Out
-				</button>
+				<div>
+					<h3 id="header-user">
+						Logged in as <span>{user.username}</span>
+					</h3>
+					<button className="btn" id="logout-btn" onClick={logOut}>
+						Log Out
+					</button>
+				</div>
 			)}
 		</nav>
 	);

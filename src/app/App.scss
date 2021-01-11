@@ -9,6 +9,15 @@
 @font-face {
 	font-family: 'Whitney';
 	src: url('./assets/fonts/whitney-medium.otf');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Whitney';
+	src: url('./assets/fonts/whitney-light.otf');
+	font-weight: normal;
+	font-style: normal;
 }
 
 * {

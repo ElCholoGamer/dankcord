@@ -70,3 +70,13 @@ nav {
 		height: 40px;
 	}
 }
+
+#header-user {
+	display: inline;
+	margin: 0 10px;
+	font-weight: normal;
+
+	> span {
+		font-weight: bold;
+	}
+}
