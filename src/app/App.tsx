@@ -41,7 +41,11 @@ const App: React.FC = () => {
 					path="/login"
 					render={() => <Login setLoaded={setLoaded} />}
 				/>
-				<Route exact path="/register" component={Register} />
+				<Route
+					exact
+					path="/register"
+					render={() => <Register setLoaded={setLoaded} />}
+				/>
 
 				<Redirect to="/" />
 			</Switch>
