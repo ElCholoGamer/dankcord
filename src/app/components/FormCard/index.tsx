@@ -19,6 +19,7 @@ interface Field<T> {
 
 interface Props<T> {
 	title: string;
+	buttonLabel: string;
 	alert?: string;
 	data: T;
 	setData: Dispatch<SetStateAction<T>>;
@@ -31,6 +32,7 @@ interface Props<T> {
 
 function FormCard<T extends { [key: string]: string }>({
 	title,
+	buttonLabel,
 	alert,
 	onSubmit,
 	data,
@@ -77,7 +79,7 @@ function FormCard<T extends { [key: string]: string }>({
 				onClick={onSubmit}
 				className="btn form-btn"
 				disabled={fields.some(field => field.required && !data[field.value])}>
-				Log In
+				{buttonLabel}
 			</button>
 
 			<br />

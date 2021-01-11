@@ -37,6 +37,7 @@ const Login: React.FC<Props> = ({ setLoaded }) => {
 		<main>
 			<FormCard
 				title="Welcome back!"
+				buttonLabel="Log In"
 				data={input}
 				setData={setInput}
 				onSubmit={handleClick}
