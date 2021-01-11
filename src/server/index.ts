@@ -15,6 +15,7 @@ import authRouter from './routes/auth';
 import indexRouter from './routes';
 import apiRouter from './routes/api';
 import jsonReplacer from './util/json-replacer';
+import forceHttps from './middleware/force-https';
 config();
 
 const { MONGODB_URI } = process.env;
@@ -37,6 +38,7 @@ app.enable('trust proxy');
 app.set('json replacer', jsonReplacer);
 
 // Middleware
+app.use(forceHttps());
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
