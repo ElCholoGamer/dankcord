@@ -10,7 +10,7 @@ const verifyClient: VerifyClientCallbackAsync = async (info, done) => {
 	const user = await User.findOne({ _id: id, token });
 	if (user) {
 		user.token = undefined;
-		// await user.save();
+		await user.save();
 	}
 
 	done(!!user);
