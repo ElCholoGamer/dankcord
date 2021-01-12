@@ -5,8 +5,11 @@ const common = require('./webpack.common');
 const pkg = require('../package.json');
 
 // Dev proxy settings
-const { proxy = '/' } = pkg;
+const { proxy } = pkg;
 const secure = proxy.startsWith('https');
+const host = proxy.replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+console.log(host);
 
 const config = merge(common, {
 	mode: 'development',
@@ -18,18 +21,24 @@ const config = merge(common, {
 		historyApiFallback: true,
 		overlay: true,
 		stats: 'minimal',
-		open: true,
-		proxy: {
-			'/': {
-				target: proxy,
-				secure,
-				bypass: req =>
-					req.method === 'GET' &&
-					req.headers.accept?.indexOf('text/html') !== -1
-						? '/index.html' // Skip proxy
-						: null, // Continue with proxy
-			},
-		},
+		open: process.env.NO_OPEN?.toLowerCase() !== 'true',
+		proxy: proxy
+			? {
+					'/': {
+						target: proxy,
+						secure,
+						bypass: req =>
+							req.method === 'GET' &&
+							req.headers.accept?.indexOf('text/html') !== -1
+								? '/index.html' // Skip proxy
+								: null, // Continue with proxy
+					},
+					'/gateway': {
+						target: `${secure ? 'wss' : 'ws'}://${host}/gateway`,
+						ws: true,
+					},
+			  }
+			: {},
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
