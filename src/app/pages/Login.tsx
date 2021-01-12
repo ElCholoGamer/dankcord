@@ -29,7 +29,7 @@ const Login: React.FC<Props> = ({ setLoaded, user }) => {
 			.then(() => {
 				localStorage.setItem('loggedIn', 'true');
 				setLoaded(false);
-				history.push('/');
+				history.push('/channels');
 			})
 			.catch((err: AxiosError) => {
 				setAlert(err.response?.data?.message || 'Unknown error.');
