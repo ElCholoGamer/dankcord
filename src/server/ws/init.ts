@@ -19,6 +19,7 @@ function initWebSocket(app: Express, server: HttpServer) {
 
 	wss.on('connection', async (client, req) => {
 		client.isAlive = true;
+		client.ready = false;
 
 		const [, id] = getWsInfo(req.url);
 		const user = await User.findById(id);
@@ -32,6 +33,7 @@ function initWebSocket(app: Express, server: HttpServer) {
 
 		// Emit 'READY' event
 		client.send(JSON.stringify({ e: 'READY', d: {} }));
+		client.ready = true;
 
 		console.log('WS client connected');
 	});

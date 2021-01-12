@@ -53,5 +53,6 @@ declare module 'ws' {
 	interface WebSocket extends ws {
 		user: IUser;
 		isAlive: boolean;
+		ready: boolean;
 	}
 }
