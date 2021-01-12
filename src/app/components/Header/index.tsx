@@ -30,10 +30,14 @@ const Header: React.FC<Props> = ({ user, setLoaded }) => {
 
 			{!user ? (
 				<div id="auth-buttons">
-					<button onClick={() => history.push('/login')} className="btn">
+					<button
+						onClick={() => history.push('/login')}
+						className="btn purple-btn">
 						Log In
 					</button>
-					<button onClick={() => history.push('/register')} className="btn">
+					<button
+						onClick={() => history.push('/register')}
+						className="btn purple-btn">
 						Register
 					</button>
 				</div>

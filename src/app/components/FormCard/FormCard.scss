@@ -1,5 +1,4 @@
 @import '../../variables';
-@import '../../mixins';
 @import '../../functions';
 
 .form-card {
@@ -44,16 +43,7 @@
 }
 
 .form-btn {
-	background-color: $important;
 	margin: 20px 0;
-
-	&:hover:enabled {
-		@include bgChange($value: -10);
-	}
-
-	&:active {
-		@include bgChange($value: -20);
-	}
 }
 
 .card-link {

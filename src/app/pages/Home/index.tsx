@@ -18,7 +18,7 @@ const Home: React.FC = () => {
 
 			<button
 				onClick={() => history.push('/channels')}
-				className="btn"
+				className="btn purple-btn"
 				id="channels-btn">
 				Channels
 			</button>

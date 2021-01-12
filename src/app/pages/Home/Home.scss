@@ -1,5 +1,4 @@
 @import '../../variables';
-@import '../../mixins';
 
 #home-main {
 	margin: 10px 0;
@@ -19,17 +18,5 @@
 		max-width: 85%;
 		margin: 60px auto;
 		font-size: x-large;
-	}
-}
-
-#channels-btn {
-	background-color: $important;
-
-	&:hover {
-		@include bgChange($value: -10);
-	}
-
-	&:active {
-		@include bgChange($value: -20);
 	}
 }

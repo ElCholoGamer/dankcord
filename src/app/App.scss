@@ -1,4 +1,5 @@
 @import './variables';
+@import './functions';
 
 @font-face {
 	font-family: 'Uni Sans';
@@ -48,5 +49,17 @@ main {
 		cursor: not-allowed;
 		opacity: 0.7;
 		pointer-events: none;
+	}
+}
+
+.purple-btn {
+	background-color: $important;
+
+	&:hover {
+		background-color: lighten($important, -10);
+	}
+
+	&:active {
+		background-color: lighten($important, -20);
 	}
 }

@@ -78,7 +78,7 @@ function FormCard<T extends { [key: string]: string }>({
 
 				<button
 					onClick={onSubmit}
-					className="btn form-btn"
+					className="btn purple-btn form-btn"
 					disabled={fields.some(field => field.required && !data[field.value])}>
 					{buttonLabel}
 				</button>
