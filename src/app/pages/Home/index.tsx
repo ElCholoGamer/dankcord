@@ -2,8 +2,13 @@ import React from 'react';
 import Logo from '@assets/images/logo.png';
 import './Home.scss';
 import { useHistory } from 'react-router-dom';
+import { User } from 'structures';
 
-const Home: React.FC = () => {
+interface Props {
+	user: User | null;
+}
+
+const Home: React.FC<Props> = ({ user }) => {
 	const history = useHistory();
 
 	return (
@@ -16,12 +21,14 @@ const Home: React.FC = () => {
 				Haven't you noticed yet?
 			</p>
 
-			<button
-				onClick={() => history.push('/channels')}
-				className="btn purple-btn"
-				id="channels-btn">
-				Channels
-			</button>
+			{user && (
+				<button
+					onClick={() => history.push('/channels')}
+					className="btn purple-btn"
+					id="channels-btn">
+					Channels
+				</button>
+			)}
 		</main>
 	);
 };

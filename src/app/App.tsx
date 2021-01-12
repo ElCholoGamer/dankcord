@@ -39,7 +39,7 @@ const App: React.FC = () => {
 		<Suspense fallback={<Loading />}>
 			<Header setLoaded={setLoaded} user={user} />
 			<Switch>
-				<Route exact path="/" component={Home} />
+				<Route exact path="/" render={() => <Home user={user} />} />
 				<Route exact path="/channels" render={() => <Channels user={user} />} />
 				<Route
 					exact
