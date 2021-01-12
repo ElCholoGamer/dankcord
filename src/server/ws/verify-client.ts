@@ -4,7 +4,7 @@ import { getParams } from './init';
 
 const verifyClient: VerifyClientCallbackAsync = async (info, done) => {
 	const [token, id] = getParams(info.req.url);
-	if (!token || !id) return done(false);
+	if (!token || !id) return done(false, 401, 'Unauthenticated.');
 
 	// Find user with token
 	const user = await User.findOne({ _id: id, token });

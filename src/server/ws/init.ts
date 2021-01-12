@@ -1,5 +1,5 @@
 import { Server as HttpServer } from 'http';
-import { Server as WSServer } from 'ws';
+import { Server as WSServer, WebSocket } from 'ws';
 import { Express } from 'express';
 import { URL } from 'url';
 import verifyClient from './verify-client';
@@ -12,8 +12,8 @@ WSServer.prototype.broadcast = function (
 	moderatorOnly = false
 ) {
 	this.clients.forEach(client => {
-		if (client.OPEN && (!moderatorOnly || client.moderator))
-			client.send(JSON.stringify({ event, data }));
+		if (client.OPEN && (!moderatorOnly || client.user.moderator))
+			client.send(JSON.stringify({ e: event, d: data }));
 	});
 };
 
@@ -23,6 +23,8 @@ export function getParams(
 	const { searchParams } = new URL(url, 'http://example.com');
 	return [searchParams.get('token'), searchParams.get('user')];
 }
+
+function noop() {}
 
 function initWebSocket(app: Express, server: HttpServer) {
 	const wss = new WSServer({ server, path: '/gateway', verifyClient });
@@ -34,15 +36,33 @@ function initWebSocket(app: Express, server: HttpServer) {
 	});
 
 	wss.on('connection', async (client, req) => {
+		client.isAlive = true;
+
 		const [, id] = getParams(req.url);
-
-		// Find client user
 		const user = await User.findById(id);
+
 		if (!user) return client.close();
+		client.user = user;
 
-		client.moderator = user?.moderator ?? false;
+		client.on('pong', function () {
+			(this as WebSocket).isAlive = true;
+		});
 
-		console.log('WebSocket connected!');
+		console.log('WS client connected');
+	});
+
+	// Schedule client pings
+	wss.on('listening', () => {
+		const timer = setInterval(() => {
+			wss.clients.forEach(client => {
+				if (!client.isAlive) return client.terminate();
+
+				client.isAlive = false;
+				client.ping(noop);
+			});
+		}, 3e4);
+
+		wss.on('close', () => clearInterval(timer));
 	});
 }
 
