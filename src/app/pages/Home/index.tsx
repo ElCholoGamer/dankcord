@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from '@assets/images/logo.png';
 import './Home.scss';
 import { useHistory } from 'react-router-dom';
-import { User } from 'structures';
+import { User } from 'util/structures';
 
 interface Props {
 	user: User | null;

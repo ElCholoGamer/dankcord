@@ -2,7 +2,7 @@ import React, { useState, MouseEvent, Dispatch, SetStateAction } from 'react';
 import axios, { AxiosError } from 'axios';
 import { Redirect, useHistory } from 'react-router-dom';
 import FormCard from '@components/FormCard';
-import { User } from 'structures';
+import { User } from 'util/structures';
 
 interface Props {
 	setLoaded: Dispatch<SetStateAction<boolean>>;

@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, MouseEvent } from 'react';
 import Logo from '@assets/images/logo.png';
-import { User } from '../../structures';
+import { User } from '../../util/structures';
 import { useHistory } from 'react-router-dom';
 import './Header.scss';
 import axios from 'axios';

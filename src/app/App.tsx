@@ -1,8 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import Loading from '@components/Loading';
-import { User } from './structures';
+import { User } from './util/structures';
 import './App.scss';
 
 const Header = lazy(() => import('@components/Header'));
@@ -28,6 +28,7 @@ const App: React.FC = () => {
 			.then(res => setUser(res.data))
 			.catch((err: AxiosError) => {
 				setUser(null);
+				localStorage.removeItem('loggedIn');
 				if (err.response?.status !== 401) console.error(err);
 			})
 			.finally(() => setLoaded(true));
@@ -58,4 +59,4 @@ const App: React.FC = () => {
 	);
 };
 
-export default withRouter(App);
+export default App;
