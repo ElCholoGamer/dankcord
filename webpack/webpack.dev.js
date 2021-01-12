@@ -9,8 +9,6 @@ const { proxy } = pkg;
 const secure = proxy.startsWith('https');
 const host = proxy.replace(/^https?:\/\//, '').replace(/\/$/, '');
 
-console.log(host);
-
 const config = merge(common, {
 	mode: 'development',
 	devtool: 'eval-source-map',
