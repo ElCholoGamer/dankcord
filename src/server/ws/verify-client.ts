@@ -11,9 +11,10 @@ const verifyClient: VerifyClientCallbackAsync = async (info, done) => {
 	if (user) {
 		user.token = undefined;
 		await user.save();
+		done(true);
+	} else {
+		done(false, 401, 'Unauthenticated.');
 	}
-
-	done(!!user);
 };
 
 export default verifyClient;
