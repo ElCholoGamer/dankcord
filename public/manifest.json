@@ -1,4 +1,5 @@
 {
+	"$schema": "https://json.schemastore.org/web-manifest-combined",
 	"name": "Dankcord",
 	"description": "A completely original chat app.",
 	"lang": "en-US",
@@ -6,6 +7,8 @@
 	"display": "standalone",
 	"background_color": "#23272a",
 	"theme_color": "#2c2f33",
+	"categories": ["chat", "memes", "social"],
+	"scope": "/",
 	"icons": [
 		{
 			"src": "/icons/manifest-icon-192.png",
