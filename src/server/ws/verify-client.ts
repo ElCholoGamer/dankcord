@@ -1,9 +1,9 @@
 import { VerifyClientCallbackAsync } from 'ws';
 import User from '../models/user';
-import { getParams } from './init';
+import getWsInfo from './get-ws-info';
 
 const verifyClient: VerifyClientCallbackAsync = async (info, done) => {
-	const [token, id] = getParams(info.req.url);
+	const [token, id] = getWsInfo(info.req.url);
 	if (!token || !id) return done(false, 401, 'Unauthenticated.');
 
 	// Find user with token
