@@ -40,7 +40,7 @@ const App: React.FC = () => {
 			<Header setLoaded={setLoaded} user={user} />
 			<Switch>
 				<Route exact path="/" component={Home} />
-				<Route exact path="/channels" component={Channels} />
+				<Route exact path="/channels" render={() => <Channels user={user} />} />
 				<Route
 					exact
 					path="/login"
