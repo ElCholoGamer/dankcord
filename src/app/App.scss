@@ -28,8 +28,19 @@
 	font-family: Whitney, sans-serif;
 }
 
+html,
+body,
+#root {
+	height: 100%;
+}
+
 body {
 	background-color: $background;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
 }
 
 main {
@@ -62,4 +73,12 @@ main {
 	&:active {
 		background-color: lighten($important, -20);
 	}
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.italic {
+	font-style: italic;
 }

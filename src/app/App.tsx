@@ -34,10 +34,10 @@ const App: React.FC = () => {
 			.finally(() => setLoaded(true));
 	}, [loaded]);
 
-	if (!loaded) return <Loading />;
+	if (!loaded) return <PageLoading />;
 
 	return (
-		<Suspense fallback={<Loading />}>
+		<Suspense fallback={<PageLoading />}>
 			<Header setLoaded={setLoaded} user={user} />
 			<Switch>
 				<Route exact path="/" render={() => <Home user={user} />} />
@@ -59,4 +59,9 @@ const App: React.FC = () => {
 	);
 };
 
+const PageLoading: React.FC = () => (
+	<div style={{ height: '100vh' }}>
+		<Loading />
+	</div>
+);
 export default App;

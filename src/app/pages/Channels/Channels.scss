@@ -1,32 +1,94 @@
 @import '../../variables';
 @import '../../functions';
 
-#connecting-text {
-	width: 100%;
-	padding: 10px 0;
-	background-color: lighten($background, -10);
-	text-align: center;
-}
-
 #channels-container {
 	display: flex;
-	height: calc(100vh - 62px);
+	height: 100%;
 
 	> div {
 		height: 100%;
-		background-color: $background;
-		border: 1px solid black;
-		// width: 250px;
 	}
 }
 
 #channel-messages {
+	background-color: lighten($backgroundSec, 5);
 	flex: 2 1 600px;
+	overflow-y: auto;
+
+	box-sizing: border-box;
+	padding: 5px 0;
+
+	&::-webkit-scrollbar {
+		width: 18px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+		border-radius: 5px;
+		box-shadow: inset 0 0 10px 10px lighten($backgroundSec, -5);
+		border: solid 5px transparent;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background-color: transparent;
+		border-radius: 5px;
+		box-shadow: inset 0 0 10px 10px lighten($background, -10);
+		border: solid 5px transparent;
+	}
 }
 
 #users-list,
 #channels-list {
+	background-color: $background;
 	flex: 0 1 250px;
+}
+
+.channel-item {
+	padding: 8px;
+	margin: 4px 5px;
+	border-radius: 6px;
+
+	cursor: pointer;
+	font-size: 18px;
+
+	&:hover {
+		background-color: $backgroundSec;
+	}
+}
+
+.channel-item {
+	padding: 10px;
+	margin: 5px;
+	border-radius: 6px;
+
+	cursor: pointer;
+	font-size: 18px;
+
+	&:not(.selected):hover {
+		background-color: $backgroundSec;
+	}
+
+	&.selected {
+		background-color: lighten($backgroundSec, 20);
+	}
+}
+
+.message {
+	padding: 5px 10px;
+}
+
+#no-messages-text {
+	text-align: center;
+	margin: 15px 0;
+	width: 100%;
+}
+
+.scrollable {
+	overflow-y: scroll;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 @media screen and (max-width: 600px) {

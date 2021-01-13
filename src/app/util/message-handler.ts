@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ChannelState, ExtChannel } from 'pages/Channels';
+import { ChannelState } from 'pages/Channels';
 import { Dispatch, SetStateAction } from 'react';
 import { Channel } from './structures';
 
@@ -8,8 +8,6 @@ async function messageHandler(
 	event: MessageEvent<any>
 ) {
 	const { e, d } = JSON.parse(event.data);
-	console.log('Received event:', e);
-	console.log('Data:', d);
 
 	switch (e) {
 		case 'READY':
@@ -17,10 +15,10 @@ async function messageHandler(
 			const channels: Channel[] = res.data;
 
 			setChannels(
-				channels.reduce((acc, channel) => {
-					acc.set(channel.id, { ...channel, messages: null });
-					return acc;
-				}, new Map<string, ExtChannel>())
+				channels.reduce(
+					(acc, channel) => ({ ...acc, [channel.id]: channel }),
+					{}
+				)
 			);
 			break;
 	}

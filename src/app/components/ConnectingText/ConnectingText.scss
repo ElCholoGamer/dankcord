@@ -1,0 +1,9 @@
+@import '../../variables';
+@import '../../functions';
+
+#connecting-text {
+	width: 100%;
+	padding: 10px 0;
+	background-color: lighten($background, -10);
+	text-align: center;
+}
