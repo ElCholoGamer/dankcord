@@ -37,6 +37,7 @@
 	}
 }
 
+#users-list,
 #channels-list {
 	background-color: $background;
 	flex: 0 1 250px;
@@ -86,6 +87,12 @@
 	overflow-y: scroll;
 
 	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#users-list {
 		display: none;
 	}
 }
