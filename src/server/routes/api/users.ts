@@ -5,6 +5,13 @@ import asyncHandler from '../../util/async-handler';
 
 const router = Router();
 
+// Get all online users
+router.get('/', (req, res) => {
+	const clients = Array.from(req.wss.clients.values());
+
+	res.json(clients.map(client => client.user));
+});
+
 // Get self user
 router.get('/@me', (req, res) => res.json(req.user));
 
