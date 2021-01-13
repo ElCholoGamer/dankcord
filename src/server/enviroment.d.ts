@@ -55,6 +55,8 @@ declare module 'ws' {
 			data: IChannel,
 			moderatorOnly?: boolean
 		): void;
+		broadcast(event: 'USER_JOIN', data: IUser, moderatorOnly?: boolean): void;
+		broadcast(event: 'USER_LEAVE', data: IUser, moderatorOnly?: boolean): void;
 	}
 
 	interface WebSocket extends ws {

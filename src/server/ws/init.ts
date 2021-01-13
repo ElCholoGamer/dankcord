@@ -21,9 +21,14 @@ function initWebSocket(app: Express, server: HttpServer) {
 		client.ready = false;
 		client.user = req.wsUser;
 
+		// Client events
+		client.on('close', () => wss.broadcast('USER_LEAVE', client.user));
 		client.on('pong', function () {
 			(this as WebSocket).isAlive = true;
 		});
+
+		// Emit 'USER_JOIN' event
+		wss.broadcast('USER_JOIN', client.user);
 
 		// Emit 'READY' event
 		client.send(JSON.stringify({ e: 'READY', d: {} }));
