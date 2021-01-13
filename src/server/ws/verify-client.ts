@@ -5,7 +5,10 @@ import { Document } from 'mongoose';
 import Session from '../models/session';
 import User, { IUser } from '../models/user';
 
-export type SecureUser = Omit<IUser, 'password' | keyof Document>;
+export type SecureUser = Omit<
+	IUser,
+	'password' | Exclude<keyof Document, '_id'>
+>;
 
 const verifyClient: VerifyClientCallbackAsync = async ({ req }, done) => {
 	// Parse session ID cookie
@@ -26,11 +29,10 @@ const verifyClient: VerifyClientCallbackAsync = async ({ req }, done) => {
 	if (!user) return done(false, 401, 'Unauthenticated.');
 
 	const clone: any = user.toObject();
-
 	delete clone.password;
 	delete clone.__v;
 
-	req.user = clone;
+	req.wsUser = clone;
 	done(true);
 };
 

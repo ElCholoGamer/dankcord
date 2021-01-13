@@ -19,7 +19,7 @@ function initWebSocket(app: Express, server: HttpServer) {
 	wss.on('connection', async (client, req) => {
 		client.isAlive = true;
 		client.ready = false;
-		client.user = req.user;
+		client.user = req.wsUser;
 
 		client.on('pong', function () {
 			(this as WebSocket).isAlive = true;

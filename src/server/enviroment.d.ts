@@ -18,7 +18,7 @@ declare global {
 
 declare module 'http' {
 	interface IncomingMessage {
-		user: SecureUser;
+		wsUser: SecureUser;
 	}
 }
 
