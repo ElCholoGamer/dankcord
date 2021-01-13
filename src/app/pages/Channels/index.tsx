@@ -102,8 +102,6 @@ const Channels: React.FC<Props> = ({ user }) => {
 					</>
 				)}
 			</div>
-
-			<div id="users-list" className="scrollable"></div>
 		</main>
 	);
 };
