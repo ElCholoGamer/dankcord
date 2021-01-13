@@ -20,6 +20,7 @@ router.get(
 
 // Middleware to find messages by ID
 router.use(
+	'/:id',
 	asyncHandler(async (req, res, next) => {
 		const { params, channel } = req;
 		const id = params.messageId;
@@ -53,8 +54,8 @@ router.post(
 	asyncHandler(async (req, res) => {
 		const message = new Message({
 			channel: req.channel.id,
-			content: req.body.content,
-			author: req.user!.id,
+			content: req.body.content.trim(),
+			author: req.user,
 		});
 
 		await message.save();
