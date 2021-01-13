@@ -21,28 +21,21 @@ const Channels: React.FC<Props> = ({ user }) => {
 		if (!connected && channels) setConnected(true);
 	}, [channels]);
 
-	// WebSocket startup
 	useEffect(() => {
 		if (!user) return;
 
+		// WebSocket startup
 		(async () => {
-			// Fetch token
-			const res = await axios.post('/auth/token');
-			const { authToken } = res.data;
-
 			const host =
 				process.env.NODE_ENV === 'development'
 					? 'localhost:8080'
 					: location.host;
 
 			const secure = location.protocol.indexOf('https') !== -1;
-			const url = `${
-				secure ? 'wss' : 'ws'
-			}://${host}/gateway?token=${authToken}&user=${user.id}`;
+			const url = `${secure ? 'wss' : 'ws'}://${host}/gateway`;
 
 			const ws = new WebSocket(url);
-
-			ws.onmessage = e => messageHandler(setChannels, e);
+			ws.addEventListener('message', e => messageHandler(setChannels, e));
 		})().catch(console.error);
 	}, [user]);
 
@@ -55,7 +48,13 @@ const Channels: React.FC<Props> = ({ user }) => {
 			</main>
 		);
 
-	return <div>Channels component</div>;
+	return (
+		<main style={{ padding: 0 }} id="channels-container">
+			<div id="channels-list"></div>
+			<div id="channel-messages"></div>
+			<div id="users-list"></div>
+		</main>
+	);
 };
 
 const ConnectingText: React.FC = () => {
