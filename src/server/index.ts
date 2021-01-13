@@ -18,10 +18,13 @@ import jsonReplacer from './util/json-replacer';
 import forceHttps from './middleware/force-https';
 config();
 
+// Enviroment stuff
+const SESSION_SECRET = (process.env.SESSION_SECRET ||= 'poggers');
+
 const { MONGODB_URI } = process.env;
 if (!MONGODB_URI) throw new Error('"MONGODB_URI" env variable missing');
 
-const NODE_ENV = (process.env.NODE_ENV = process.argv.includes('-d')
+const NODE_ENV = (process.env.NODE_ENV ||= process.argv.includes('-d')
 	? 'development'
 	: 'production');
 
@@ -44,7 +47,7 @@ app.use(express.json());
 if (NODE_ENV === 'development') app.use(morgan('dev'));
 app.use(
 	session({
-		secret: process.env.SESSION_SECRET || 'poggers',
+		secret: SESSION_SECRET,
 		saveUninitialized: false,
 		resave: false,
 		store: new MongoStore({ mongooseConnection: mongoose.connection }),

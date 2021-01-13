@@ -3,9 +3,6 @@ import { IVerifyOptions } from 'passport-local';
 import passport from 'passport';
 import { IUser } from '../models/user';
 import validator from '../middleware/validator';
-import asyncHandler from '../util/async-handler';
-import authenticate from '../middleware/authenticate';
-import User from '../models/user';
 
 const router = Router();
 
@@ -64,29 +61,5 @@ router.post('/logout', (req, res) => {
 		message: 'Logged out.',
 	});
 });
-
-// Generate auth token for WebSocket
-router.post(
-	'/token',
-	authenticate(),
-	asyncHandler(async (req, res) => {
-		let token: string;
-
-		do {
-			token = [...Array(6)]
-				.map(() => Math.random().toString(16).substr(3))
-				.join('');
-		} while (await User.findOne({ token }));
-
-		req.user!.token = token;
-		await req.user?.save();
-
-		res.json({
-			status: 200,
-			id: req.user?.id,
-			authToken: token,
-		});
-	})
-);
 
 export default router;

@@ -7,7 +7,6 @@ export interface IUser extends Document {
 	email: string;
 	password: string;
 	moderator: boolean;
-	token?: string;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -19,7 +18,6 @@ export const UserSchema = new Schema(
 		email: { type: String, required: true, minlength: 1 },
 		password: { type: String, required: true, minlength: 1 },
 		moderator: { type: Boolean, required: false, default: false },
-		token: String,
 	},
 	{ timestamps: true }
 );

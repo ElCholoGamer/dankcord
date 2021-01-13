@@ -2,6 +2,7 @@ import { IUser } from './models/user';
 import { IChannel } from './models/channel';
 import { IMessage } from './models/message';
 import ws, { Server as WSServer } from 'ws';
+import { SecureUser } from './ws/verify-client';
 
 declare global {
 	namespace Express {
@@ -12,6 +13,12 @@ declare global {
 			message: IMessage;
 			wss: WSServer;
 		}
+	}
+}
+
+declare module 'http' {
+	interface IncomingMessage {
+		user: SecureUser;
 	}
 }
 
@@ -51,7 +58,7 @@ declare module 'ws' {
 	}
 
 	interface WebSocket extends ws {
-		user: IUser;
+		user: SecureUser;
 		isAlive: boolean;
 		ready: boolean;
 	}

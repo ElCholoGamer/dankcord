@@ -4,7 +4,6 @@ import { Express } from 'express';
 import verifyClient from './verify-client';
 import User from '../models/user';
 import './broadcast';
-import getWsInfo from './get-ws-info';
 
 function noop() {}
 
@@ -20,12 +19,7 @@ function initWebSocket(app: Express, server: HttpServer) {
 	wss.on('connection', async (client, req) => {
 		client.isAlive = true;
 		client.ready = false;
-
-		const [, id] = getWsInfo(req.url);
-		const user = await User.findById(id);
-
-		if (!user) return client.close();
-		client.user = user;
+		client.user = req.user;
 
 		client.on('pong', function () {
 			(this as WebSocket).isAlive = true;
