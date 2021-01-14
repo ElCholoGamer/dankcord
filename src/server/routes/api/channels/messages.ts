@@ -20,7 +20,7 @@ router.get(
 
 // Middleware to find messages by ID
 router.use(
-	'/:id',
+	'/:messageId',
 	asyncHandler(async (req, res, next) => {
 		const { params, channel } = req;
 		const id = params.messageId;
@@ -104,7 +104,7 @@ router.delete(
 		}
 
 		await message.delete();
-		req.wss.broadcast('CHANNEL_DELETE', message);
+		req.wss.broadcast('MESSAGE_DELETE', message);
 
 		res.json({
 			status: 200,

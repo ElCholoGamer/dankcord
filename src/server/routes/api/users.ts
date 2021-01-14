@@ -9,12 +9,7 @@ const router = Router();
 router.get('/', (req, res) => {
 	const users = Array.from(req.wss.clients).map(client => client.user);
 	const unique = users.filter(
-		(user, index) =>
-			users.findIndex(u => {
-				const [a, b] = [u._id, user._id];
-				console.log('Comparing:', a, 'and', b);
-				return a === b;
-			}) === index
+		(user, index) => users.findIndex(u => u._id === user._id) === index
 	);
 
 	res.json(unique);

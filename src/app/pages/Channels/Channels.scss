@@ -153,6 +153,26 @@
 	}
 }
 
+.delete-btn {
+	float: right;
+	border-radius: 50%;
+
+	outline: none;
+	border: none;
+
+	cursor: pointer;
+	background-color: $background;
+	box-shadow: 0 0 10px black;
+	padding: 0px 3px;
+
+	font-family: sans-serif;
+	font-size: 15px;
+
+	&:disabled {
+		opacity: 0.6;
+	}
+}
+
 @media screen and (max-width: 600px) {
 	#users-list {
 		display: none;

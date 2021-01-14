@@ -1,4 +1,10 @@
-import React, { useEffect, KeyboardEvent, useState, useRef } from 'react';
+import React, {
+	useEffect,
+	KeyboardEvent,
+	MouseEvent,
+	useState,
+	useRef,
+} from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Channel, Message, User } from '../../util/structures';
@@ -53,6 +59,19 @@ const Channels: React.FC<Props> = ({ user }) => {
 			});
 	};
 
+	const deleteMessage = (
+		e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+		id: string
+	) => {
+		const btn = e.currentTarget;
+		btn.disabled = true;
+
+		axios.delete(`/api/channels/${selected}/messages/${id}`).catch(err => {
+			console.error(err);
+			btn.disabled = false;
+		});
+	};
+
 	// Select default channel when connected
 	useEffect(() => {
 		if (!connected) return;
@@ -102,6 +121,7 @@ const Channels: React.FC<Props> = ({ user }) => {
 		const ws = new WebSocket(url);
 		ws.addEventListener('message', async event => {
 			const { e, d } = JSON.parse(event.data);
+			console.log('e:', e, 'd:', d);
 
 			switch (e) {
 				case 'READY':
@@ -145,10 +165,10 @@ const Channels: React.FC<Props> = ({ user }) => {
 					});
 					break;
 				case 'MESSAGE_DELETE':
-					setMessages(prev => {
-						prev[d.channel] = prev[d.channel].filter(m => m.id !== d.id);
-						return prev;
-					});
+					setMessages(prev => ({
+						...prev,
+						[d.channel]: prev[d.channel].filter(m => m.id !== d.id),
+					}));
 					break;
 				case 'CHANNEL_CREATE':
 					setChannels(prev => ({ ...prev, [d.id]: d }));
@@ -211,6 +231,13 @@ const Channels: React.FC<Props> = ({ user }) => {
 										<div key={message.id} className="message">
 											<span className="bold">{message.author.username}:</span>{' '}
 											{message.content}
+											{message.author.id === user.id && (
+												<button
+													className="delete-btn"
+													onClick={e => deleteMessage(e, message.id)}>
+													&times;
+												</button>
+											)}
 										</div>
 									))}
 								</>
