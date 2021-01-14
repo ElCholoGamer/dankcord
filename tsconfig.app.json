@@ -11,10 +11,10 @@
 		"removeComments": true,
 		"skipLibCheck": true,
 		"moduleResolution": "node",
-		"baseUrl": "./src/app/",
+		"baseUrl": ".",
 		"paths": {
-			"@assets/*": ["assets/*"],
-			"@components/*": ["components/*"]
+			"@assets/*": ["src/app/assets/*"],
+			"@components/*": ["src/app/components/*"]
 		}
 	},
 	"include": ["src/app/**/*"]
