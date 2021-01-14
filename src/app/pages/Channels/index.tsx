@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Channel, Message, User } from '../../util/structures';
@@ -23,15 +23,13 @@ const Channels: React.FC<Props> = ({ user }) => {
 	const [messages, setMessages] = useState<Record<string, Message[]>>({});
 
 	const previousMessages = usePrevious(messages);
-	const handler = useMemo(
-		() =>
-			messageHandler(user, {
-				setChannels,
-				setConnected,
-				setMessages,
-				setUsers,
-			}),
-		[user]
+	const handler = useRef(
+		messageHandler(user, {
+			setChannels,
+			setConnected,
+			setMessages,
+			setUsers,
+		})
 	);
 
 	const scrollMessages = () => {
@@ -93,7 +91,7 @@ const Channels: React.FC<Props> = ({ user }) => {
 		const url = `${secure ? 'wss' : 'ws'}://${host}/gateway`;
 
 		const ws = new WebSocket(url);
-		ws.addEventListener('message', handler);
+		ws.addEventListener('message', handler.current);
 
 		return () => ws.close();
 	}, [user]);
