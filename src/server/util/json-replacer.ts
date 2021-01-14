@@ -7,7 +7,7 @@ function jsonReplacer(key: string, val: any) {
 	}
 
 	// Replace date strings with timestamps
-	if (typeof val === 'string') {
+	if (['createdAt', 'updatedAt'].includes(key) && typeof val === 'string') {
 		const d = Date.parse(val);
 		if (!isNaN(d)) return d;
 	}
