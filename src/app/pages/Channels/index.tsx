@@ -2,11 +2,10 @@ import React, { useEffect, KeyboardEvent, useState, useRef } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Channel, Message, User } from '../../util/structures';
+import usePrevious from '../../util/use-previous';
 import Loading from '@components/Loading';
 import ConnectingText from '@components/ConnectingText';
 import './Channels.scss';
-
-export type ChannelState = Record<string, Channel>;
 
 interface Props {
 	user: User | null;
@@ -18,15 +17,25 @@ const Channels: React.FC<Props> = ({ user }) => {
 
 	const [connected, setConnected] = useState(false);
 	const [users, setUsers] = useState<User[]>([]);
-	const [channels, setChannels] = useState<ChannelState>({});
+	const [channels, setChannels] = useState<Record<string, Channel>>({});
 	const [selected, setSelected] = useState('');
 	const [messages, setMessages] = useState<Record<string, Message[]>>({});
 	const [input, setInput] = useState('');
+
+	const previousMessages = usePrevious(messages);
 
 	const scrollMessages = () => {
 		const messagesDiv = messagesRef.current;
 		if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
 	};
+
+	// Scroll when new message
+	useEffect(() => {
+		const prev = previousMessages?.[selected]?.length ?? 0;
+		const curr = messages[selected]?.length ?? 0;
+
+		if (prev < curr) scrollMessages();
+	}, [messages]);
 
 	const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key !== 'Enter' || !input) return;
@@ -54,25 +63,27 @@ const Channels: React.FC<Props> = ({ user }) => {
 
 	// Update messages when selected changes
 	useEffect(() => {
+		let mounted = true;
 		if (selected) localStorage.setItem('lastChannel', selected);
 		if (!selected) return;
 
-		// Fetch selected channel messages
 		if (selected in messages) return scrollMessages();
 
+		// Fetch selected channel messages
 		let timer: ReturnType<typeof setTimeout> | null = null;
 		(async function fetchMessages() {
 			try {
 				const res = await axios.get(`/api/channels/${selected}/messages`);
-				setMessages(prev => ({ ...prev, [selected]: res.data }));
+				if (!mounted) return;
 
-				scrollMessages();
+				setMessages(prev => ({ ...prev, [selected]: res.data }));
 			} catch {
 				timer = setTimeout(fetchMessages, 1000);
 			}
 		})();
 
 		return () => {
+			mounted = false;
 			if (timer) clearTimeout(timer);
 		};
 	}, [selected]);
@@ -91,7 +102,6 @@ const Channels: React.FC<Props> = ({ user }) => {
 		const ws = new WebSocket(url);
 		ws.addEventListener('message', async event => {
 			const { e, d } = JSON.parse(event.data);
-			console.log('e:', e, 'd:', d);
 
 			switch (e) {
 				case 'READY':
@@ -119,15 +129,13 @@ const Channels: React.FC<Props> = ({ user }) => {
 					});
 					break;
 				case 'USER_LEAVE':
-					setUsers(prev => prev.filter(user => user.id !== d.id));
+					setUsers(prev => prev.filter(u => u.id !== d.id || u.id === user.id));
 					break;
 				case 'MESSAGE_CREATE':
 					setMessages(prev => {
 						const list = prev[d.channel] ?? [];
 						return { ...prev, [d.channel]: [...list, d] };
 					});
-
-					if (d.channel === selected) scrollMessages();
 					break;
 				case 'MESSAGE_EDIT':
 					setMessages(prev => {
@@ -158,6 +166,8 @@ const Channels: React.FC<Props> = ({ user }) => {
 					break;
 			}
 		});
+
+		return () => ws.close();
 	}, [user]);
 
 	if (!user) return <Redirect to="/login" />;
