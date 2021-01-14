@@ -1,4 +1,5 @@
 import { Server as WSServer } from 'ws';
+import jsonReplacer from '../util/json-replacer';
 
 WSServer.prototype.broadcast = function (
 	event: string,
@@ -7,6 +8,6 @@ WSServer.prototype.broadcast = function (
 ) {
 	this.clients.forEach(client => {
 		if (client.ready && (!moderatorOnly || client.user.moderator))
-			client.send(JSON.stringify({ e: event, d: data }));
+			client.send(JSON.stringify({ e: event, d: data }, jsonReplacer));
 	});
 };
