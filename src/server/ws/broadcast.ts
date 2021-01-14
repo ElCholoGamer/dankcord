@@ -6,8 +6,10 @@ WSServer.prototype.broadcast = function (
 	data: {},
 	moderatorOnly = false
 ) {
+	const payload = JSON.stringify({ e: event, d: data }, jsonReplacer);
+	console.log('Payload:', payload);
 	this.clients.forEach(client => {
 		if (client.ready && (!moderatorOnly || client.user.moderator))
-			client.send(JSON.stringify({ e: event, d: data }, jsonReplacer));
+			client.send(payload);
 	});
 };

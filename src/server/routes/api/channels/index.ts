@@ -19,6 +19,7 @@ router.get(
 		const channels = await Channel.find(
 			req.user?.moderator ? {} : { private: false }
 		);
+
 		res.json(channels);
 	})
 );
@@ -30,7 +31,7 @@ router.post(
 	channelValidator,
 	asyncHandler(async (req, res) => {
 		const priv: boolean = req.body.private ?? false;
-		const name: string = req.body.name.toLowerCase();
+		const name: string = req.body.name.toLowerCase().trim().replace(/\s/g, '-');
 
 		// Check that name is unique
 		const existing = await Channel.findOne({ name });
@@ -45,7 +46,7 @@ router.post(
 		const channel = new Channel({
 			name,
 			private: priv,
-			author: req.user!._id,
+			author: req.user,
 		});
 
 		await channel.save();
