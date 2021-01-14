@@ -28,11 +28,7 @@ const verifyClient: VerifyClientCallbackAsync = async ({ req }, done) => {
 	const user = await User.findById(passport.user);
 	if (!user) return done(false, 401, 'Unauthenticated.');
 
-	const clone: any = user.toObject();
-	delete clone.password;
-	delete clone.__v;
-
-	req.wsUser = clone;
+	req.wsUser = user;
 	done(true);
 };
 

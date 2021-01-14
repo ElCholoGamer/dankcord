@@ -38,7 +38,8 @@ initWebSocket(app, server);
 
 // Settings
 app.enable('trust proxy');
-app.set('json replacer', jsonReplacer(['password', '__v', 'token', 'email']));
+
+app.set('json replacer', jsonReplacer(['password', '__v', 'email']));
 
 // Middleware
 app.use(forceHttps());

@@ -7,9 +7,17 @@ const router = Router();
 
 // Get all online users
 router.get('/', (req, res) => {
-	const clients = Array.from(req.wss.clients.values());
+	const users = Array.from(req.wss.clients).map(client => client.user);
+	const unique = users.filter(
+		(user, index) =>
+			users.findIndex(u => {
+				const [a, b] = [u._id, user._id];
+				console.log('Comparing:', a, 'and', b);
+				return a === b;
+			}) === index
+	);
 
-	res.json(clients.map(client => client.user));
+	res.json(unique);
 });
 
 // Get self user

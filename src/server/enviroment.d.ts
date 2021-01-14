@@ -18,7 +18,7 @@ declare global {
 
 declare module 'http' {
 	interface IncomingMessage {
-		wsUser: SecureUser;
+		wsUser: IUser;
 	}
 }
 
@@ -60,7 +60,7 @@ declare module 'ws' {
 	}
 
 	interface WebSocket extends ws {
-		user: SecureUser;
+		user: IUser;
 		isAlive: boolean;
 		ready: boolean;
 	}

@@ -4,6 +4,7 @@ import { Express } from 'express';
 import verifyClient from './verify-client';
 import User from '../models/user';
 import './broadcast';
+import sanitizeUser from './sanitize-user';
 
 function noop() {}
 
@@ -22,17 +23,19 @@ function initWebSocket(app: Express, server: HttpServer) {
 		client.user = req.wsUser;
 
 		// Client events
-		client.on('close', () => wss.broadcast('USER_LEAVE', client.user));
+		client.on('close', () =>
+			wss.broadcast('USER_LEAVE', sanitizeUser(client.user))
+		);
 		client.on('pong', function () {
 			(this as WebSocket).isAlive = true;
 		});
 
 		// Emit 'USER_JOIN' event
-		wss.broadcast('USER_JOIN', client.user);
+		wss.broadcast('USER_JOIN', sanitizeUser(client.user));
 
 		// Emit 'READY' event
-		client.send(JSON.stringify({ e: 'READY', d: {} }));
 		client.ready = true;
+		client.send(JSON.stringify({ e: 'READY', d: {} }));
 
 		console.log('WS client connected');
 	});
@@ -46,7 +49,7 @@ function initWebSocket(app: Express, server: HttpServer) {
 				client.isAlive = false;
 				client.ping(noop);
 			});
-		}, 3e4);
+		}, 2e4);
 
 		wss.on('close', () => clearInterval(timer));
 	});

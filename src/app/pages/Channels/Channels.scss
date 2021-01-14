@@ -37,6 +37,19 @@
 	}
 }
 
+#users-list {
+	box-sizing: border-box;
+	padding: 10px;
+
+	> h3 {
+		margin-bottom: 10px;
+	}
+
+	> .online-user {
+		margin: 6px 0;
+	}
+}
+
 #users-list,
 #channels-list {
 	background-color: $background;
