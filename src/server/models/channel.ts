@@ -14,7 +14,7 @@ export interface IChannel extends Document {
 export const ChannelSchema = new Schema(
 	{
 		_id: String,
-		name: { type: String, required: true, minlength: 1 },
+		name: { type: String, required: true, minlength: 1, trim: true },
 		author: { type: UserSchema, required: true },
 		private: { type: Boolean, required: true },
 	},

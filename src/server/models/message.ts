@@ -14,7 +14,13 @@ export interface IMessage extends Document {
 export const MessageSchema = new Schema(
 	{
 		_id: String,
-		content: { type: String, required: true, minLength: 1, maxLength: 2000 },
+		content: {
+			type: String,
+			required: true,
+			minLength: 1,
+			maxLength: 2000,
+			trim: true,
+		},
 		author: { type: UserSchema, required: true },
 		channel: { type: String, required: true },
 	},
