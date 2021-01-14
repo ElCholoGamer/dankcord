@@ -30,6 +30,13 @@
 
 	overflow-y: auto;
 
+	display: flex;
+	flex-direction: column;
+
+	> div:first-child {
+		margin-top: auto;
+	}
+
 	&::-webkit-scrollbar {
 		width: 18px;
 	}
