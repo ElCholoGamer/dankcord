@@ -105,6 +105,17 @@
 	flex: 0 1 250px;
 }
 
+#channels-list {
+	display: flex;
+	flex-direction: column;
+}
+
+#channels {
+	flex-grow: 1;
+	min-height: 0;
+	flex-basis: 0;
+}
+
 .channel-item {
 	padding: 8px;
 	margin: 4px 5px;
@@ -162,7 +173,7 @@
 
 	cursor: pointer;
 	background-color: $background;
-	box-shadow: 0 0 10px black;
+	box-shadow: 0 0 5px black;
 	padding: 0px 3px;
 
 	font-family: sans-serif;
@@ -170,6 +181,33 @@
 
 	&:disabled {
 		opacity: 0.6;
+	}
+}
+
+#create-channel {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+
+	box-shadow: 0 0 5px black;
+
+	> * {
+		width: 100%;
+		border: none;
+		outline: none;
+
+		box-sizing: border-box;
+		padding: 10px;
+
+		&:first-child {
+			margin-bottom: 10px;
+		}
+	}
+
+	> input {
+		background-color: lighten($backgroundSec, 20);
+		font-size: 16px;
+		padding: 6px;
 	}
 }
 

@@ -31,7 +31,12 @@ router.post(
 	channelValidator,
 	asyncHandler(async (req, res) => {
 		const priv: boolean = req.body.private ?? false;
-		const name: string = req.body.name.toLowerCase().trim().replace(/\s/g, '-');
+		const name: string = req.body.name
+			.toLowerCase()
+			.trimStart()
+			.replace(/\s/g, '-')
+			.replace(/-{2,}/g, '-')
+			.replace(/(^-|-$)/g, '');
 
 		// Check that name is unique
 		const existing = await Channel.findOne({ name });

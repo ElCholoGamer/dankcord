@@ -4,6 +4,7 @@ import React, {
 	MouseEvent,
 	useState,
 	useRef,
+	ChangeEvent,
 } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
@@ -12,6 +13,7 @@ import usePrevious from '../../util/use-previous';
 import Loading from '@components/Loading';
 import ConnectingText from '@components/ConnectingText';
 import './Channels.scss';
+import channel from 'src/server/models/channel';
 
 interface Props {
 	user: User | null;
@@ -26,29 +28,35 @@ const Channels: React.FC<Props> = ({ user }) => {
 	const [channels, setChannels] = useState<Record<string, Channel>>({});
 	const [selected, setSelected] = useState('');
 	const [messages, setMessages] = useState<Record<string, Message[]>>({});
-	const [input, setInput] = useState('');
+	const [input, setInput] = useState({ message: '', channel: '' });
 
 	const previousMessages = usePrevious(messages);
+
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		const final =
+			name === 'channel'
+				? value
+						.toLowerCase()
+						.trimStart()
+						.replace(/\s/g, '-')
+						.replace(/-{2,}/g, '-')
+				: value.trimStart();
+
+		setInput(prev => ({ ...prev, [name]: final }));
+	};
 
 	const scrollMessages = () => {
 		const messagesDiv = messagesRef.current;
 		if (messagesDiv) messagesDiv.scrollTop = messagesDiv.scrollHeight;
 	};
 
-	// Scroll when new message
-	useEffect(() => {
-		const prev = previousMessages?.[selected]?.length ?? 0;
-		const curr = messages[selected]?.length ?? 0;
-
-		if (prev < curr) scrollMessages();
-	}, [messages]);
-
 	const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-		if (e.key !== 'Enter' || !input) return;
+		if (e.key !== 'Enter' || !input.message) return;
 
 		const field = e.currentTarget;
 		field.disabled = true;
-		setInput('');
+		setInput(prev => ({ ...prev, message: '' }));
 
 		axios
 			.post(`/api/channels/${selected}/messages`, { content: input })
@@ -72,6 +80,30 @@ const Channels: React.FC<Props> = ({ user }) => {
 		});
 	};
 
+	const createChannel = (
+		e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+	) => {
+		if (!input.channel || !user?.moderator) return;
+
+		setInput(prev => ({ ...prev, channel: '' }));
+		const btn = e.currentTarget;
+		btn.disabled = true;
+
+		axios
+			.post(`/api/channels`, { name: input.channel })
+			.then(res => setSelected(res.data.id))
+			.catch(console.error)
+			.finally(() => (btn.disabled = false));
+	};
+
+	// Scroll on new message
+	useEffect(() => {
+		const prev = previousMessages?.[selected]?.length ?? 0;
+		const curr = messages[selected]?.length ?? 0;
+
+		if (prev < curr) scrollMessages();
+	}, [messages]);
+
 	// Select default channel when connected
 	useEffect(() => {
 		if (!connected) return;
@@ -83,8 +115,9 @@ const Channels: React.FC<Props> = ({ user }) => {
 	// Update messages when selected changes
 	useEffect(() => {
 		let mounted = true;
-		if (selected) localStorage.setItem('lastChannel', selected);
+
 		if (!selected) return;
+		localStorage.setItem('lastChannel', selected);
 
 		if (selected in messages) return scrollMessages();
 
@@ -93,9 +126,7 @@ const Channels: React.FC<Props> = ({ user }) => {
 		(async function fetchMessages() {
 			try {
 				const res = await axios.get(`/api/channels/${selected}/messages`);
-				if (!mounted) return;
-
-				setMessages(prev => ({ ...prev, [selected]: res.data }));
+				if (mounted) setMessages(prev => ({ ...prev, [selected]: res.data }));
 			} catch {
 				timer = setTimeout(fetchMessages, 1000);
 			}
@@ -183,7 +214,6 @@ const Channels: React.FC<Props> = ({ user }) => {
 						delete prev[d.id];
 						return prev;
 					});
-					break;
 			}
 		});
 
@@ -202,17 +232,35 @@ const Channels: React.FC<Props> = ({ user }) => {
 
 	return (
 		<main style={{ padding: 0 }} id="channels-container">
-			<div id="channels-list" className="scrollable">
-				{Object.values(channels).map(channel => (
-					<div
-						key={channel.id}
-						onClick={() => setSelected(channel.id)}
-						className={`channel-item${
-							channel.id === selected ? ' selected' : ''
-						}`}>
-						# <span className="bold">{channel.name}</span>
+			<div id="channels-list">
+				<div id="channels" className="scrollable">
+					{Object.values(channels).map(channel => (
+						<div
+							key={channel.id}
+							onClick={() => setSelected(channel.id)}
+							className={`channel-item${
+								channel.id === selected ? ' selected' : ''
+							}`}>
+							# <span className="bold">{channel.name}</span>
+						</div>
+					))}
+				</div>
+
+				{user.moderator && (
+					<div id="create-channel">
+						<input
+							type="text"
+							name="channel"
+							placeholder="Channel name"
+							value={input.channel}
+							onChange={handleChange}
+						/>
+						<br />
+						<button className="btn purple-btn" onClick={createChannel}>
+							Add channel
+						</button>
 					</div>
-				))}
+				)}
 			</div>
 
 			<div id="channel-messages">
@@ -247,9 +295,10 @@ const Channels: React.FC<Props> = ({ user }) => {
 							<input
 								type="text"
 								placeholder={`Message #${channels[selected].name}`}
-								value={input}
+								value={input.message}
 								autoFocus
-								onChange={e => setInput(e.target.value.trimStart())}
+								name="message"
+								onChange={handleChange}
 								onKeyPress={handleKeyPress}
 								ref={inputRef}
 							/>
