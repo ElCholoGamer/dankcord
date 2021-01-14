@@ -1,0 +1,59 @@
+@import '../../../variables';
+
+#channels-list {
+	background-color: $background;
+	flex: 0 1 250px;
+
+	display: flex;
+	flex-direction: column;
+}
+
+#channels {
+	flex-grow: 1;
+	min-height: 0;
+	flex-basis: 0;
+}
+
+.channel-item {
+	padding: 10px;
+	margin: 5px;
+	border-radius: 6px;
+
+	cursor: pointer;
+	font-size: 18px;
+
+	&:not(.selected):hover {
+		background-color: $backgroundSec;
+	}
+
+	&.selected {
+		background-color: lighten($backgroundSec, 20);
+	}
+}
+
+#create-channel {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+
+	box-shadow: 0 0 5px black;
+
+	> * {
+		width: 100%;
+		border: none;
+		outline: none;
+
+		box-sizing: border-box;
+		padding: 10px;
+
+		&:first-child {
+			margin-bottom: 10px;
+		}
+	}
+
+	> input {
+		background-color: lighten($backgroundSec, 20);
+		font-size: 16px;
+		padding: 6px;
+	}
+}
