@@ -14,12 +14,13 @@ const config = merge(common, {
 	devtool: 'eval-source-map',
 	devServer: {
 		contentBase: resolve(__dirname, '../build'),
+		publicPath: '/',
 		port: 3000,
-		hot: true,
 		historyApiFallback: true,
 		overlay: true,
 		stats: 'minimal',
 		open: process.env.NO_OPEN?.toLowerCase() !== 'true',
+		inline: true,
 		proxy: proxy
 			? {
 					'/': {
