@@ -3,7 +3,6 @@ import { Server as WSServer, WebSocket } from 'ws';
 import { Express } from 'express';
 import verifyClient from './verify-client';
 import './broadcast';
-import jsonReplacer from '../util/json-replacer';
 
 function noop() {}
 
@@ -23,14 +22,14 @@ function initWebSocket(app: Express, server: HttpServer) {
 
 		// Client events
 		client.on('close', () =>
-			wss.broadcast('USER_LEAVE', jsonReplacer)
+			wss.broadcast('USER_LEAVE', client.user)
 		);
 		client.on('pong', function () {
 			(this as WebSocket).isAlive = true;
 		});
 
 		// Emit 'USER_JOIN' event
-		wss.broadcast('USER_JOIN', jsonReplacer);
+		wss.broadcast('USER_JOIN', client.user);
 
 		// Emit 'READY' event
 		client.ready = true;
