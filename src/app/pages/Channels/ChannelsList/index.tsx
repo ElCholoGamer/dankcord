@@ -5,6 +5,7 @@ import React, {
 	MouseEvent,
 	ChangeEvent,
 	useState,
+	useRef,
 } from 'react';
 import { Channel, User } from '../../../util/structures';
 import './ChannelsList.scss';
@@ -54,14 +55,13 @@ const ChannelsList: React.FC<Props> = ({
 		<div id="channels-list">
 			<div id="channels" className="scrollable">
 				{Object.values(channels).map(channel => (
-					<div
+					<ChannelItem
 						key={channel.id}
-						onClick={() => setSelected(channel.id)}
-						className={`channel-item${
-							channel.id === selected ? ' selected' : ''
-						}`}>
-						# <span className="bold">{channel.name}</span>
-					</div>
+						channel={channel}
+						selected={selected}
+						setSelected={setSelected}
+						user={user}
+					/>
 				))}
 			</div>
 
@@ -79,6 +79,56 @@ const ChannelsList: React.FC<Props> = ({
 						Add channel
 					</button>
 				</div>
+			)}
+		</div>
+	);
+};
+
+interface ChannelItemProps {
+	channel: Channel;
+	selected: string;
+	setSelected: Dispatch<SetStateAction<string>>;
+	user: User;
+}
+
+const ChannelItem: React.FC<ChannelItemProps> = ({
+	channel,
+	selected,
+	setSelected,
+	user,
+}) => {
+	const divRef = useRef<HTMLDivElement>(null);
+
+	const handleClick = (
+		e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+	) => {
+		if (e.target !== divRef.current) return e.stopPropagation();
+		setSelected(channel.id);
+	};
+
+	const deleteChannel = (
+		e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>
+	) => {
+		const btn = e.currentTarget;
+		btn.disabled = true;
+
+		axios.delete(`/api/channels/${channel.id}`).catch(err => {
+			btn.disabled = false;
+			console.error(err);
+		});
+	};
+
+	return (
+		<div
+			key={channel.id}
+			ref={divRef}
+			onClick={handleClick}
+			className={`channel-item${channel.id === selected ? ' selected' : ''}`}>
+			# <span className="bold">{channel.name}</span>
+			{user.moderator && (
+				<button onClick={deleteChannel} className="delete-channel-btn">
+					&times;
+				</button>
 			)}
 		</div>
 	);

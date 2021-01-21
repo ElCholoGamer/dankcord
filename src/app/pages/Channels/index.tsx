@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Channel, Message, User } from '../../util/structures';
@@ -29,6 +29,7 @@ const Channels: React.FC<Props> = ({ user }) => {
 			setConnected,
 			setMessages,
 			setUsers,
+			setSelected,
 		})
 	);
 
@@ -50,8 +51,16 @@ const Channels: React.FC<Props> = ({ user }) => {
 		if (!connected) return;
 
 		const lastChannel = localStorage.getItem('lastChannel') ?? '';
-		setSelected(channels[lastChannel]?.id || Object.values(channels)[0]?.id);
+		setSelected(channels[lastChannel]?.id ?? Object.values(channels)[0]?.id);
 	}, [connected]);
+
+	// Change to default channel if selected not available
+	useEffect(() => {
+		const [first] = Object.values(channels);
+		if (selected in channels || !first) return;
+
+		setSelected(first.id);
+	}, [channels]);
 
 	// Update messages when selected changes
 	useEffect(() => {

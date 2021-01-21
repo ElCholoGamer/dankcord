@@ -9,11 +9,12 @@ interface Setters {
 	setUsers: SetState<User[]>;
 	setMessages: SetState<Record<string, Message[]>>;
 	setConnected: SetState<boolean>;
+	setSelected: SetState<string>;
 }
 
 const messageHandler = (
 	user: User | null,
-	{ setChannels, setConnected, setMessages, setUsers }: Setters
+	{ setChannels, setConnected, setMessages, setUsers, setSelected }: Setters
 ) =>
 	async function (event: MessageEvent<any>) {
 		if (!user) return;
@@ -25,9 +26,9 @@ const messageHandler = (
 			case 'READY':
 				// Fetch channels
 				let res = await axios.get('/api/channels');
-				const channels: Channel[] = res.data;
+				const newChannels: Channel[] = res.data;
 				setChannels(
-					channels.reduce(
+					newChannels.reduce(
 						(acc, channel) => ({ ...acc, [channel.id]: channel }),
 						{}
 					)
@@ -58,8 +59,9 @@ const messageHandler = (
 			case 'MESSAGE_EDIT':
 				setMessages(prev => {
 					const index = prev[d.channel].findIndex(m => m.id === d.id);
-					prev[d.channel][index] = d;
-					return prev;
+					const list = [...prev[d.channel]];
+					list[index] = d;
+					return { ...prev, [d.channel]: list };
 				});
 				break;
 			case 'MESSAGE_DELETE':
@@ -74,12 +76,12 @@ const messageHandler = (
 			case 'CHANNEL_EDIT':
 				if (!d.private || user.moderator) {
 					setChannels(prev => ({ ...prev, [d.id]: d }));
-					break;
 				}
+				break;
 			case 'CHANNEL_DELETE':
 				setChannels(prev => {
-					delete prev[d.id];
-					return prev;
+					const { [d.id]: omit, ...rest } = prev;
+					return rest;
 				});
 		}
 	};

@@ -36,7 +36,6 @@ const ChannelMessages: React.FC<Props> = ({
 	const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key !== 'Enter' || !input) return;
 
-		setInput('');
 		const field = e.currentTarget;
 		field.disabled = true;
 
@@ -44,6 +43,7 @@ const ChannelMessages: React.FC<Props> = ({
 			.post(`/api/channels/${selected}/messages`, { content: input })
 			.catch(console.error)
 			.finally(() => {
+				setInput('');
 				field.disabled = false;
 				inputRef.current?.focus();
 			});
@@ -94,7 +94,7 @@ const ChannelMessages: React.FC<Props> = ({
 					<div id="message-input">
 						<input
 							type="text"
-							placeholder={`Message #${channels[selected].name}`}
+							placeholder={`Message #${channels[selected]?.name}`}
 							value={input}
 							autoFocus
 							name="message"
