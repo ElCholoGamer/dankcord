@@ -17,12 +17,8 @@ interface Props {
 	user: User;
 }
 
-const ChannelsList: React.FC<Props> = ({
-	channels,
-	setSelected,
-	selected,
-	user,
-}) => {
+const ChannelsList: React.FC<Props> = props => {
+	const { channels, setSelected, selected, user } = props;
 	const [input, setInput] = useState('');
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,13 +51,7 @@ const ChannelsList: React.FC<Props> = ({
 		<div id="channels-list">
 			<div id="channels" className="scrollable">
 				{Object.values(channels).map(channel => (
-					<ChannelItem
-						key={channel.id}
-						channel={channel}
-						selected={selected}
-						setSelected={setSelected}
-						user={user}
-					/>
+					<ChannelItem key={channel.id} {...props} channel={channel} />
 				))}
 			</div>
 
@@ -84,14 +74,10 @@ const ChannelsList: React.FC<Props> = ({
 	);
 };
 
-interface ChannelItemProps {
-	channel: Channel;
-	selected: string;
-	setSelected: Dispatch<SetStateAction<string>>;
-	user: User;
-}
+type ChannelItemProps = Props & { channel: Channel };
 
 const ChannelItem: React.FC<ChannelItemProps> = ({
+	channels,
 	channel,
 	selected,
 	setSelected,
@@ -125,7 +111,7 @@ const ChannelItem: React.FC<ChannelItemProps> = ({
 			onClick={handleClick}
 			className={`channel-item${channel.id === selected ? ' selected' : ''}`}>
 			# <span className="bold">{channel.name}</span>
-			{user.moderator && (
+			{user.moderator && Object.keys(channels).length > 1 && (
 				<button onClick={deleteChannel} className="delete-channel-btn">
 					&times;
 				</button>

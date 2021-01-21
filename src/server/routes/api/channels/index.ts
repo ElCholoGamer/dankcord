@@ -112,6 +112,14 @@ router.delete(
 	'/:id',
 	checkMod(),
 	asyncHandler(async (req, res) => {
+		const count = await Channel.countDocuments();
+		if (count <= 1) {
+			return res.status(403).json({
+				status: 403,
+				message: 'Only 0-1 channels left.',
+			});
+		}
+
 		await req.channel.delete();
 		req.wss.broadcast('CHANNEL_DELETE', req.channel);
 
